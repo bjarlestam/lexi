@@ -4,59 +4,73 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Spanska – repetition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="app-header">
-    <h1 class="app-title">Spanska</h1>
-    <p class="app-subtitle">Spaced repetition</p>
-  </header>
-
-  <section class="toolbar" aria-label="Inställningar">
-    <label class="file-picker">
-      <span class="file-picker__label">Ladda övningar</span>
-      <input type="file" id="file-input" accept=".md,.markdown,text/markdown" />
-    </label>
-    <p class="hint" id="load-hint">Öppna sidan via en lokal server (t.ex. <code>python3 -m http.server</code>) så laddas <code>exercises.md</code> automatiskt. Annars välj filen här.</p>
-    <div class="toolbar__row">
-      <label for="chapter-filter" class="visually-hidden">Kapitel</label>
-      <select id="chapter-filter" disabled>
-        <option value="">Alla kapitel</option>
-      </select>
-      <button type="button" id="btn-reset-progress" class="btn btn--ghost" disabled>Nollställ framsteg</button>
-    </div>
-  </section>
-
-  <section class="stats" id="stats" aria-live="polite">
-    <span id="stat-total">0 kort</span>
-    <span id="stat-due" class="stats__due">0 att repetera nu</span>
-  </section>
-
-  <main class="study" id="study" hidden>
-    <article class="card" aria-live="polite">
-      <p class="card__chapter" id="card-chapter"></p>
-      <p class="card__front" id="card-front"></p>
-      <p class="card__hint" id="card-hint" hidden></p>
-      <button type="button" id="btn-reveal" class="btn btn--primary">Visa svar</button>
-      <div class="card__back-wrap" id="card-back-wrap" hidden>
-        <p class="card__back" id="card-back"></p>
-        <div class="grade-row" role="group" aria-label="Hur väl kunde du svaret?">
-          <button type="button" class="btn btn--again" data-grade="again">Igen</button>
-          <button type="button" class="btn btn--hard" data-grade="hard">Svårt</button>
-          <button type="button" class="btn btn--good" data-grade="good">Bra</button>
-          <button type="button" class="btn btn--easy" data-grade="easy">Lätt</button>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div class="top-bar__left">
+        <span class="top-bar__mark" aria-hidden="true">ES</span>
+        <div class="top-bar__titles">
+          <p class="top-bar__hello">¡Hola!</p>
+          <p class="top-bar__tagline">Spansk repetition</p>
         </div>
       </div>
-    </article>
-  </main>
+      <div class="top-bar__badge" id="header-due-badge" title="Kort att repetera nu" aria-live="polite">0</div>
+    </header>
 
-  <section class="empty-state" id="empty-state">
-    <p id="empty-message">Laddar övningar…</p>
-  </section>
+    <section class="dashboard" id="dashboard-zone" hidden>
+      <article class="cta-card" aria-labelledby="cta-heading">
+        <h2 id="cta-heading" class="cta-card__title">Redo att öva?</h2>
+        <p class="cta-card__lead">
+          <span class="cta-card__accent" id="cta-due-num">0</span>
+          <span class="cta-card__lead-text"> kort väntar på repetition</span>
+        </p>
+        <p class="cta-card__sub">Fortsätt med korten nedan.</p>
+      </article>
+      <div class="stat-pills" id="stats" aria-live="polite">
+        <div class="stat-pill">
+          <span class="stat-pill__label">Totalt</span>
+          <span class="stat-pill__value" id="stat-total">0</span>
+        </div>
+        <div class="stat-pill stat-pill--accent">
+          <span class="stat-pill__label">Nu</span>
+          <span class="stat-pill__value" id="stat-due">0</span>
+        </div>
+      </div>
+    </section>
 
-  <footer class="app-footer">
-    <small>Data sparas lokalt i webbläsaren.</small>
-  </footer>
+    <main class="study" id="study" hidden>
+      <div class="study__progress" aria-hidden="true"><div class="study__progress-bar" id="study-progress-bar"></div></div>
+      <article class="flashcard" aria-live="polite">
+        <p class="flashcard__meta" id="card-chapter"></p>
+        <p class="flashcard__prompt" id="card-front"></p>
+        <p class="flashcard__hint" id="card-hint" hidden></p>
+        <button type="button" id="btn-reveal" class="btn btn--primary">Visa svar</button>
+        <div class="flashcard__answer" id="card-back-wrap" hidden>
+          <p class="flashcard__answer-text" id="card-back"></p>
+          <div class="grade-row" role="group" aria-label="Hur väl kunde du svaret?">
+            <button type="button" class="btn btn--again" data-grade="again">Igen</button>
+            <button type="button" class="btn btn--hard" data-grade="hard">Svårt</button>
+            <button type="button" class="btn btn--good" data-grade="good">Bra</button>
+            <button type="button" class="btn btn--easy" data-grade="easy">Lätt</button>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <section class="empty-state panel" id="empty-state">
+      <p id="empty-message">Laddar övningar…</p>
+    </section>
+
+    <footer class="app-footer">
+      <small>Data sparas lokalt i webbläsaren.</small>
+      <button type="button" class="footer-reset" id="btn-reset-progress" disabled>Nollställ repetitionsdata</button>
+    </footer>
+  </div>
 
   <script src="app.js"></script>
 </body>

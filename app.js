@@ -9,15 +9,15 @@
   var cards = [];
   var stateById = {};
   var currentCardId = null;
-  var currentChapterFilter = '';
 
   var el = {
-    fileInput: document.getElementById('file-input'),
-    loadHint: document.getElementById('load-hint'),
-    chapterFilter: document.getElementById('chapter-filter'),
     btnReset: document.getElementById('btn-reset-progress'),
     statsTotal: document.getElementById('stat-total'),
     statsDue: document.getElementById('stat-due'),
+    dashboardZone: document.getElementById('dashboard-zone'),
+    headerDueBadge: document.getElementById('header-due-badge'),
+    ctaDueNum: document.getElementById('cta-due-num'),
+    studyProgressBar: document.getElementById('study-progress-bar'),
     study: document.getElementById('study'),
     empty: document.getElementById('empty-state'),
     emptyMsg: document.getElementById('empty-message'),
@@ -201,13 +201,6 @@
     };
   }
 
-  function filteredCards() {
-    if (!currentChapterFilter) return cards;
-    return cards.filter(function (c) {
-      return c.chapter === currentChapterFilter;
-    });
-  }
-
   function countDueNow(list, now) {
     var n = 0;
     for (var i = 0; i < list.length; i++) {
@@ -217,13 +210,25 @@
   }
 
   function updateStats() {
-    var list = filteredCards();
-    el.statsTotal.textContent = list.length + ' kort';
-    el.statsDue.textContent = countDueNow(list, Date.now()) + ' att repetera nu';
+    var list = cards;
+    var total = list.length;
+    var dueNow = countDueNow(list, Date.now());
+    el.statsTotal.textContent = total ? String(total) : '0';
+    el.statsDue.textContent = String(dueNow);
+    if (el.headerDueBadge) el.headerDueBadge.textContent = String(dueNow);
+    if (el.ctaDueNum) el.ctaDueNum.textContent = String(dueNow);
+    if (el.studyProgressBar) {
+      if (total) {
+        var pct = Math.round(((total - dueNow) / total) * 100);
+        el.studyProgressBar.style.width = Math.max(8, pct) + '%';
+      } else {
+        el.studyProgressBar.style.width = '0%';
+      }
+    }
   }
 
   function pickNextCard() {
-    var list = filteredCards();
+    var list = cards;
     if (!list.length) return null;
     var now = Date.now();
     var dueList = [];
@@ -246,12 +251,11 @@
   function setEmptyMessage(msg) {
     el.emptyMsg.textContent = msg;
     showStudy(false);
+    if (el.dashboardZone) el.dashboardZone.hidden = true;
   }
 
   function renderCard(card) {
     if (!card) {
-      setEmptyMessage('Inga kort i det här urvalet.');
-      el.btnReset.disabled = cards.length === 0;
       return;
     }
     currentCardId = card.id;
@@ -287,38 +291,17 @@
     renderCard(pickNextCard());
   }
 
-  function populateChapterFilter() {
-    var seen = {};
-    var opts = [];
-    for (var i = 0; i < cards.length; i++) {
-      var ch = cards[i].chapter;
-      if (!seen[ch]) {
-        seen[ch] = true;
-        opts.push(ch);
-      }
-    }
-    opts.sort();
-    el.chapterFilter.innerHTML = '<option value="">Alla kapitel</option>';
-    for (var j = 0; j < opts.length; j++) {
-      var o = document.createElement('option');
-      o.value = opts[j];
-      o.textContent = opts[j];
-      el.chapterFilter.appendChild(o);
-    }
-    el.chapterFilter.disabled = opts.length === 0;
-    el.chapterFilter.value = currentChapterFilter;
-  }
-
   function applyParsed(parsed) {
     cards = parsed;
     mergeState(parsed);
-    populateChapterFilter();
     updateStats();
     if (!cards.length) {
+      if (el.dashboardZone) el.dashboardZone.hidden = true;
       setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i exercises.md.');
       el.btnReset.disabled = true;
       return;
     }
+    if (el.dashboardZone) el.dashboardZone.hidden = false;
     renderCard(pickNextCard());
   }
 
@@ -336,27 +319,10 @@
       .then(loadText)
       .catch(function () {
         setEmptyMessage(
-          'Kunde inte ladda exercises.md automatiskt. Starta en lokal server i projektmappen eller välj markdown-filen ovan.'
+          'Kunde inte ladda exercises.md. Starta en lokal webbserver i projektmappen (t.ex. python3 -m http.server) och öppna sidan därifrån.'
         );
       });
   }
-
-  el.fileInput.addEventListener('change', function () {
-    var f = el.fileInput.files && el.fileInput.files[0];
-    if (!f) return;
-    var reader = new FileReader();
-    reader.onload = function () {
-      loadText(String(reader.result || ''));
-      el.loadHint.textContent = 'Laddad fil: ' + f.name;
-    };
-    reader.readAsText(f, 'UTF-8');
-  });
-
-  el.chapterFilter.addEventListener('change', function () {
-    currentChapterFilter = el.chapterFilter.value || '';
-    updateStats();
-    renderCard(pickNextCard());
-  });
 
   el.btnReset.addEventListener('click', function () {
     if (!cards.length) return;
