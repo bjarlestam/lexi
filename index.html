@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Spanska – repetition</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">Spanska</h1>
+    <p class="app-subtitle">Spaced repetition</p>
+  </header>
+
+  <section class="toolbar" aria-label="Inställningar">
+    <label class="file-picker">
+      <span class="file-picker__label">Ladda övningar</span>
+      <input type="file" id="file-input" accept=".md,.markdown,text/markdown" />
+    </label>
+    <p class="hint" id="load-hint">Öppna sidan via en lokal server (t.ex. <code>python3 -m http.server</code>) så laddas <code>exercises.md</code> automatiskt. Annars välj filen här.</p>
+    <div class="toolbar__row">
+      <label for="chapter-filter" class="visually-hidden">Kapitel</label>
+      <select id="chapter-filter" disabled>
+        <option value="">Alla kapitel</option>
+      </select>
+      <button type="button" id="btn-reset-progress" class="btn btn--ghost" disabled>Nollställ framsteg</button>
+    </div>
+  </section>
+
+  <section class="stats" id="stats" aria-live="polite">
+    <span id="stat-total">0 kort</span>
+    <span id="stat-due" class="stats__due">0 att repetera nu</span>
+  </section>
+
+  <main class="study" id="study" hidden>
+    <article class="card" aria-live="polite">
+      <p class="card__chapter" id="card-chapter"></p>
+      <p class="card__front" id="card-front"></p>
+      <p class="card__hint" id="card-hint" hidden></p>
+      <button type="button" id="btn-reveal" class="btn btn--primary">Visa svar</button>
+      <div class="card__back-wrap" id="card-back-wrap" hidden>
+        <p class="card__back" id="card-back"></p>
+        <div class="grade-row" role="group" aria-label="Hur väl kunde du svaret?">
+          <button type="button" class="btn btn--again" data-grade="again">Igen</button>
+          <button type="button" class="btn btn--hard" data-grade="hard">Svårt</button>
+          <button type="button" class="btn btn--good" data-grade="good">Bra</button>
+          <button type="button" class="btn btn--easy" data-grade="easy">Lätt</button>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <section class="empty-state" id="empty-state">
+    <p id="empty-message">Laddar övningar…</p>
+  </section>
+
+  <footer class="app-footer">
+    <small>Data sparas lokalt i webbläsaren.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

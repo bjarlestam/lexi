@@ -1,0 +1,385 @@
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'spanish-srs:v1';
+  var DEFAULT_MD = 'exercises.md';
+  var AGAIN_MS = 15 * 60 * 1000;
+  var MS_PER_DAY = 86400000;
+
+  var cards = [];
+  var stateById = {};
+  var currentCardId = null;
+  var currentChapterFilter = '';
+
+  var el = {
+    fileInput: document.getElementById('file-input'),
+    loadHint: document.getElementById('load-hint'),
+    chapterFilter: document.getElementById('chapter-filter'),
+    btnReset: document.getElementById('btn-reset-progress'),
+    statsTotal: document.getElementById('stat-total'),
+    statsDue: document.getElementById('stat-due'),
+    study: document.getElementById('study'),
+    empty: document.getElementById('empty-state'),
+    emptyMsg: document.getElementById('empty-message'),
+    cardChapter: document.getElementById('card-chapter'),
+    cardFront: document.getElementById('card-front'),
+    cardHint: document.getElementById('card-hint'),
+    btnReveal: document.getElementById('btn-reveal'),
+    cardBackWrap: document.getElementById('card-back-wrap'),
+    cardBack: document.getElementById('card-back'),
+  };
+
+  function hashId(chapter, front, back) {
+    var s = chapter + '\n' + front + '\n' + back + '\nflip';
+    var h = 0;
+    for (var i = 0; i < s.length; i++) {
+      h = (h << 5) - h + s.charCodeAt(i);
+      h |= 0;
+    }
+    return 'c' + (h >>> 0).toString(36);
+  }
+
+  function stripQuotes(raw) {
+    var t = raw.trim();
+    if ((t.charAt(0) === '"' && t.charAt(t.length - 1) === '"') ||
+        (t.charAt(0) === "'" && t.charAt(t.length - 1) === "'")) {
+      return t.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
+    }
+    return t;
+  }
+
+  function parseMarkdown(text) {
+    var lines = text.split(/\r?\n/);
+    var chapter = 'Övrigt';
+    var out = [];
+    var i = 0;
+    var inHtmlComment = false;
+
+    while (i < lines.length) {
+      var line = lines[i];
+      if (inHtmlComment) {
+        if (line.indexOf('-->') !== -1) inHtmlComment = false;
+        i++;
+        continue;
+      }
+      var trimmedStart = line.trim();
+      if (trimmedStart.indexOf('<!--') === 0) {
+        if (trimmedStart.indexOf('-->') === -1) inHtmlComment = true;
+        i++;
+        continue;
+      }
+      var chapterMatch = line.match(/^# ([^#].*)$/);
+      if (chapterMatch) {
+        chapter = chapterMatch[1].trim();
+        i++;
+        continue;
+      }
+      if (/^\s*-\s*type:\s*flip\b/.test(line)) {
+        var card = { type: 'flip', chapter: chapter, front: '', back: '', hint: '' };
+        i++;
+        while (i < lines.length) {
+          var L = lines[i];
+          if (/^\s*-\s*type:\s*\w+/.test(L)) break;
+          if (/^# /.test(L)) break;
+          var kv = L.match(/^\s{2,}(\w+):\s*(.*)$/);
+          if (kv) {
+            var key = kv[1].toLowerCase();
+            var val = stripQuotes(kv[2]);
+            if (key === 'front') card.front = val;
+            else if (key === 'back') card.back = val;
+            else if (key === 'hint') card.hint = val;
+            else if (key === 'chapter') card.chapter = val;
+          }
+          i++;
+        }
+        if (card.front && card.back) {
+          card.id = hashId(card.chapter, card.front, card.back);
+          out.push(card);
+        }
+        continue;
+      }
+      i++;
+    }
+    return out;
+  }
+
+  function loadStorage() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { v: 1, byId: {} };
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== 'object' || !o.byId) return { v: 1, byId: {} };
+      return o;
+    } catch (e) {
+      return { v: 1, byId: {} };
+    }
+  }
+
+  function saveStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ v: 1, byId: stateById }));
+  }
+
+  function defaultState() {
+    return {
+      ease: 2.5,
+      reps: 0,
+      intervalDays: 0,
+      due: Date.now(),
+    };
+  }
+
+  function mergeState(parsed) {
+    var stored = loadStorage();
+    stateById = stored.byId || {};
+    var seen = {};
+    for (var i = 0; i < parsed.length; i++) {
+      seen[parsed[i].id] = true;
+      if (!stateById[parsed[i].id]) {
+        stateById[parsed[i].id] = defaultState();
+      } else {
+        var s = stateById[parsed[i].id];
+        if (typeof s.ease !== 'number') s.ease = 2.5;
+        if (typeof s.reps !== 'number') s.reps = 0;
+        if (typeof s.intervalDays !== 'number') s.intervalDays = 0;
+        if (typeof s.due !== 'number') s.due = Date.now();
+      }
+    }
+    var keys = Object.keys(stateById);
+    for (var k = 0; k < keys.length; k++) {
+      if (!seen[keys[k]]) delete stateById[keys[k]];
+    }
+    saveStorage();
+  }
+
+  function qualityForGrade(grade) {
+    if (grade === 'again') return 1;
+    if (grade === 'hard') return 3;
+    if (grade === 'good') return 4;
+    if (grade === 'easy') return 5;
+    return 4;
+  }
+
+  function applySm2(state, q) {
+    var ease = state.ease;
+    var reps = state.reps;
+    var intervalDays = state.intervalDays;
+
+    if (q < 3) {
+      ease = Math.max(1.3, ease - 0.2);
+      return {
+        ease: ease,
+        reps: 0,
+        intervalDays: 1 / 96,
+        due: Date.now() + AGAIN_MS,
+      };
+    }
+
+    var newInterval;
+    if (reps === 0) {
+      newInterval = 1;
+    } else if (reps === 1) {
+      newInterval = 6;
+    } else {
+      newInterval = Math.max(1, Math.round(intervalDays * ease));
+    }
+
+    if (q === 3) {
+      newInterval = Math.max(1, Math.round(newInterval * 0.75));
+    } else if (q === 5) {
+      newInterval = Math.max(1, Math.round(newInterval * 1.3));
+    }
+
+    var newReps = reps + 1;
+    var newEase = ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+    if (newEase < 1.3) newEase = 1.3;
+
+    return {
+      ease: newEase,
+      reps: newReps,
+      intervalDays: newInterval,
+      due: Date.now() + newInterval * MS_PER_DAY,
+    };
+  }
+
+  function filteredCards() {
+    if (!currentChapterFilter) return cards;
+    return cards.filter(function (c) {
+      return c.chapter === currentChapterFilter;
+    });
+  }
+
+  function countDueNow(list, now) {
+    var n = 0;
+    for (var i = 0; i < list.length; i++) {
+      if ((stateById[list[i].id] || defaultState()).due <= now) n++;
+    }
+    return n;
+  }
+
+  function updateStats() {
+    var list = filteredCards();
+    el.statsTotal.textContent = list.length + ' kort';
+    el.statsDue.textContent = countDueNow(list, Date.now()) + ' att repetera nu';
+  }
+
+  function pickNextCard() {
+    var list = filteredCards();
+    if (!list.length) return null;
+    var now = Date.now();
+    var dueList = [];
+    for (var i = 0; i < list.length; i++) {
+      var st = stateById[list[i].id] || defaultState();
+      if (st.due <= now) dueList.push(list[i]);
+    }
+    var pool = dueList.length ? dueList : list.slice();
+    pool.sort(function (a, b) {
+      return (stateById[a.id] || defaultState()).due - (stateById[b.id] || defaultState()).due;
+    });
+    return pool[0];
+  }
+
+  function showStudy(show) {
+    el.study.hidden = !show;
+    el.empty.hidden = show;
+  }
+
+  function setEmptyMessage(msg) {
+    el.emptyMsg.textContent = msg;
+    showStudy(false);
+  }
+
+  function renderCard(card) {
+    if (!card) {
+      setEmptyMessage('Inga kort i det här urvalet.');
+      el.btnReset.disabled = cards.length === 0;
+      return;
+    }
+    currentCardId = card.id;
+    el.cardChapter.textContent = card.chapter;
+    el.cardFront.textContent = card.front;
+    el.cardBack.textContent = card.back;
+    if (card.hint) {
+      el.cardHint.textContent = 'Tips: ' + card.hint;
+      el.cardHint.hidden = false;
+    } else {
+      el.cardHint.textContent = '';
+      el.cardHint.hidden = true;
+    }
+    el.btnReveal.hidden = false;
+    el.cardBackWrap.hidden = true;
+    showStudy(true);
+    el.btnReset.disabled = false;
+  }
+
+  function reveal() {
+    el.btnReveal.hidden = true;
+    el.cardBackWrap.hidden = false;
+  }
+
+  function grade(gradeName) {
+    if (!currentCardId) return;
+    var st = stateById[currentCardId] || defaultState();
+    var q = qualityForGrade(gradeName);
+    var next = applySm2(st, q);
+    stateById[currentCardId] = next;
+    saveStorage();
+    updateStats();
+    renderCard(pickNextCard());
+  }
+
+  function populateChapterFilter() {
+    var seen = {};
+    var opts = [];
+    for (var i = 0; i < cards.length; i++) {
+      var ch = cards[i].chapter;
+      if (!seen[ch]) {
+        seen[ch] = true;
+        opts.push(ch);
+      }
+    }
+    opts.sort();
+    el.chapterFilter.innerHTML = '<option value="">Alla kapitel</option>';
+    for (var j = 0; j < opts.length; j++) {
+      var o = document.createElement('option');
+      o.value = opts[j];
+      o.textContent = opts[j];
+      el.chapterFilter.appendChild(o);
+    }
+    el.chapterFilter.disabled = opts.length === 0;
+    el.chapterFilter.value = currentChapterFilter;
+  }
+
+  function applyParsed(parsed) {
+    cards = parsed;
+    mergeState(parsed);
+    populateChapterFilter();
+    updateStats();
+    if (!cards.length) {
+      setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i exercises.md.');
+      el.btnReset.disabled = true;
+      return;
+    }
+    renderCard(pickNextCard());
+  }
+
+  function loadText(text) {
+    var parsed = parseMarkdown(text);
+    applyParsed(parsed);
+  }
+
+  function tryFetchDefault() {
+    return fetch(DEFAULT_MD, { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('fetch ' + r.status);
+        return r.text();
+      })
+      .then(loadText)
+      .catch(function () {
+        setEmptyMessage(
+          'Kunde inte ladda exercises.md automatiskt. Starta en lokal server i projektmappen eller välj markdown-filen ovan.'
+        );
+      });
+  }
+
+  el.fileInput.addEventListener('change', function () {
+    var f = el.fileInput.files && el.fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      loadText(String(reader.result || ''));
+      el.loadHint.textContent = 'Laddad fil: ' + f.name;
+    };
+    reader.readAsText(f, 'UTF-8');
+  });
+
+  el.chapterFilter.addEventListener('change', function () {
+    currentChapterFilter = el.chapterFilter.value || '';
+    updateStats();
+    renderCard(pickNextCard());
+  });
+
+  el.btnReset.addEventListener('click', function () {
+    if (!cards.length) return;
+    if (!confirm('Nollställa all repetitionsdata för dessa kort?')) return;
+    stateById = {};
+    for (var i = 0; i < cards.length; i++) {
+      stateById[cards[i].id] = defaultState();
+    }
+    saveStorage();
+    updateStats();
+    renderCard(pickNextCard());
+  });
+
+  el.btnReveal.addEventListener('click', reveal);
+
+  var gradeButtons = document.querySelectorAll('[data-grade]');
+  for (var g = 0; g < gradeButtons.length; g++) {
+    gradeButtons[g].addEventListener('click', function (ev) {
+      var btn = ev.currentTarget;
+      var gname = btn.getAttribute('data-grade');
+      grade(gname);
+    });
+  }
+
+  tryFetchDefault();
+})();
