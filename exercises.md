@@ -1,9 +1,8 @@
-# Kapitel 1 – ¡Hola!
+# Kapitel 1 – Hej
 
 - type: flip
   front: "Hej (informellt)"
   back: "¡Hola!"
-  hint: "hälsning"
 
 - type: flip
   front: "Hur är det?"
@@ -77,7 +76,7 @@
   front: "stackare"
   back: "pobrecito"
 
-# Presentation och länder
+# Kapitel 2 - Presentation och länder
 
 - type: flip
   front: "Hej!"
@@ -111,7 +110,7 @@
   front: "Var ligger Chile? (svar: kontinent)"
   back: "Está en América del Sur."
 
-# Kapitel 4 – ¿Cómo te llamas?
+# Kapitel 4 – Vad heter du?
 
 - type: flip
   front: "Vad heter du?"
@@ -203,7 +202,7 @@
   front: "Min son heter …"
   back: "Mi hijo se llama …"
 
-# Los colores och djur
+# Kapitel 6 - Färger och djur
 
 - type: flip
   front: "apa"
@@ -249,24 +248,3 @@
   front: "Min favoritfärg är röd."
   back: "Mi color favorito es el rojo."
 
-- type: flip
-  front: "Vilket ord ska ofta stå före färgen i favoritmeningen?"
-  back: "el"
-
-<!--
-========== MALL: LÄGG TILL FLER KORT ==========
-Kopiera ett block i taget under rätt kapitelrubrik (# Kapitel …).
-Endast typen "flip" stöds i v1.
-
-# Mitt kapitel
-
-- type: flip
-  front: "Svensk fråga eller glosa"
-  back: "Spanskt svar"
-  hint: "valfritt tips"
-
-Indrag med minst två mellanslag framför front/back/hint.
-Du kan lägga flera kapitel med egna #-rubriker; de visas i filterlistan.
-
-Tips: plocka korta ordpar ur ordlistor i boken. Undvik att klistra in hela dialoger om du publicerar materialet.
--->

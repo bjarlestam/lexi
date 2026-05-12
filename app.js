@@ -5,13 +5,13 @@
   var DEFAULT_MD = 'exercises.md';
   var AGAIN_MS = 15 * 60 * 1000;
   var MS_PER_DAY = 86400000;
+  var KNEW_LONG_DAYS = 90;
 
   var cards = [];
   var stateById = {};
   var currentCardId = null;
 
   var el = {
-    btnReset: document.getElementById('btn-reset-progress'),
     statsTotal: document.getElementById('stat-total'),
     statsDue: document.getElementById('stat-due'),
     dashboardZone: document.getElementById('dashboard-zone'),
@@ -151,54 +151,44 @@
     saveStorage();
   }
 
-  function qualityForGrade(grade) {
-    if (grade === 'again') return 1;
-    if (grade === 'hard') return 3;
-    if (grade === 'good') return 4;
-    if (grade === 'easy') return 5;
-    return 4;
-  }
-
-  function applySm2(state, q) {
+  function applyGrade(state, gradeName) {
     var ease = state.ease;
     var reps = state.reps;
-    var intervalDays = state.intervalDays;
 
-    if (q < 3) {
-      ease = Math.max(1.3, ease - 0.2);
+    if (gradeName === 'miss') {
       return {
-        ease: ease,
+        ease: Math.max(1.3, ease - 0.15),
         reps: 0,
-        intervalDays: 1 / 96,
+        intervalDays: 0,
         due: Date.now() + AGAIN_MS,
       };
     }
 
-    var newInterval;
-    if (reps === 0) {
-      newInterval = 1;
-    } else if (reps === 1) {
-      newInterval = 6;
-    } else {
-      newInterval = Math.max(1, Math.round(intervalDays * ease));
+    if (gradeName === 'knew') {
+      var newInterval;
+      var newReps;
+      if (reps === 0) {
+        newInterval = 1;
+        newReps = 1;
+      } else if (reps === 1) {
+        newInterval = 3;
+        newReps = 2;
+      } else if (reps === 2) {
+        newInterval = 6;
+        newReps = 3;
+      } else {
+        newInterval = KNEW_LONG_DAYS;
+        newReps = reps + 1;
+      }
+      return {
+        ease: ease,
+        reps: newReps,
+        intervalDays: newInterval,
+        due: Date.now() + newInterval * MS_PER_DAY,
+      };
     }
 
-    if (q === 3) {
-      newInterval = Math.max(1, Math.round(newInterval * 0.75));
-    } else if (q === 5) {
-      newInterval = Math.max(1, Math.round(newInterval * 1.3));
-    }
-
-    var newReps = reps + 1;
-    var newEase = ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
-    if (newEase < 1.3) newEase = 1.3;
-
-    return {
-      ease: newEase,
-      reps: newReps,
-      intervalDays: newInterval,
-      due: Date.now() + newInterval * MS_PER_DAY,
-    };
+    return state;
   }
 
   function countDueNow(list, now) {
@@ -272,7 +262,6 @@
     el.btnReveal.hidden = false;
     el.cardBackWrap.hidden = true;
     showStudy(true);
-    el.btnReset.disabled = false;
   }
 
   function reveal() {
@@ -283,8 +272,7 @@
   function grade(gradeName) {
     if (!currentCardId) return;
     var st = stateById[currentCardId] || defaultState();
-    var q = qualityForGrade(gradeName);
-    var next = applySm2(st, q);
+    var next = applyGrade(st, gradeName);
     stateById[currentCardId] = next;
     saveStorage();
     updateStats();
@@ -298,7 +286,6 @@
     if (!cards.length) {
       if (el.dashboardZone) el.dashboardZone.hidden = true;
       setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i exercises.md.');
-      el.btnReset.disabled = true;
       return;
     }
     if (el.dashboardZone) el.dashboardZone.hidden = false;
@@ -323,18 +310,6 @@
         );
       });
   }
-
-  el.btnReset.addEventListener('click', function () {
-    if (!cards.length) return;
-    if (!confirm('Nollställa all repetitionsdata för dessa kort?')) return;
-    stateById = {};
-    for (var i = 0; i < cards.length; i++) {
-      stateById[cards[i].id] = defaultState();
-    }
-    saveStorage();
-    updateStats();
-    renderCard(pickNextCard());
-  });
 
   el.btnReveal.addEventListener('click', reveal);
 

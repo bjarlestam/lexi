@@ -52,11 +52,9 @@
         <button type="button" id="btn-reveal" class="btn btn--primary">Visa svar</button>
         <div class="flashcard__answer" id="card-back-wrap" hidden>
           <p class="flashcard__answer-text" id="card-back"></p>
-          <div class="grade-row" role="group" aria-label="Hur väl kunde du svaret?">
-            <button type="button" class="btn btn--again" data-grade="again">Igen</button>
-            <button type="button" class="btn btn--hard" data-grade="hard">Svårt</button>
-            <button type="button" class="btn btn--good" data-grade="good">Bra</button>
-            <button type="button" class="btn btn--easy" data-grade="easy">Lätt</button>
+          <div class="grade-row" role="group" aria-label="Kunde du svaret?">
+            <button type="button" class="btn btn--knew" data-grade="knew">Jag kunde den</button>
+            <button type="button" class="btn btn--miss" data-grade="miss">Jag kunde inte den</button>
           </div>
         </div>
       </article>
@@ -65,11 +63,6 @@
     <section class="empty-state panel" id="empty-state">
       <p id="empty-message">Laddar övningar…</p>
     </section>
-
-    <footer class="app-footer">
-      <small>Data sparas lokalt i webbläsaren.</small>
-      <button type="button" class="footer-reset" id="btn-reset-progress" disabled>Nollställ repetitionsdata</button>
-    </footer>
   </div>
 
   <script src="app.js"></script>

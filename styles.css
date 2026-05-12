@@ -13,12 +13,8 @@
   --surface: #ffffff;
   --again: #e53935;
   --again-hover: #c62828;
-  --hard: #ff8a00;
-  --hard-hover: #e67a00;
   --good: #2d9e5f;
   --good-hover: #268a52;
-  --easy: #206b47;
-  --easy-hover: #185538;
   --shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.06);
   --shadow-card: 0 8px 28px rgba(26, 26, 26, 0.1);
   --shadow-cta: 0 12px 32px rgba(45, 158, 95, 0.28);
@@ -334,50 +330,26 @@ body {
 .grade-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+  gap: 0.65rem;
   margin-top: 0.25rem;
 }
 
-@media (min-width: 400px) {
-  .grade-row {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.btn--again {
+.btn--miss {
   background: var(--again);
   color: #fff;
 }
 
-.btn--again:hover:not(:disabled) {
+.btn--miss:hover:not(:disabled) {
   background: var(--again-hover);
 }
 
-.btn--hard {
-  background: var(--hard);
-  color: #fff;
-}
-
-.btn--hard:hover:not(:disabled) {
-  background: var(--hard-hover);
-}
-
-.btn--good {
+.btn--knew {
   background: var(--good);
   color: #fff;
 }
 
-.btn--good:hover:not(:disabled) {
+.btn--knew:hover:not(:disabled) {
   background: var(--good-hover);
-}
-
-.btn--easy {
-  background: var(--easy);
-  color: #fff;
-}
-
-.btn--easy:hover:not(:disabled) {
-  background: var(--easy-hover);
 }
 
 .empty-state {
@@ -385,52 +357,4 @@ body {
   padding: 2rem 1rem;
   color: var(--neutral-500);
   font-weight: 500;
-}
-
-.app-footer {
-  margin-top: 1.5rem;
-  text-align: center;
-  color: var(--neutral-500);
-  font-size: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.footer-reset {
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: none;
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--neutral-500);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.footer-reset:hover:not(:disabled) {
-  color: var(--neutral-900);
-}
-
-.footer-reset:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-  text-decoration: none;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
