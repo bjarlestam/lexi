@@ -18,6 +18,8 @@
   var KNEW_LONG_DAYS = 90;
   var CORRECT_DELAY_MS = 650;
   var MILESTONE_TARGET = 5;
+  /** Poäng vid vilket flamma/siffra når full "mörkröd" intensitet (0–1 skalar däröver). */
+  var POINTS_HEAT_MAX = 120;
 
   var util = window.ExerciseTypes.util;
 
@@ -42,6 +44,7 @@
     statsDue: document.getElementById('stat-due'),
     dashboardZone: document.getElementById('dashboard-zone'),
     headerPointsBadge: document.getElementById('header-points-badge'),
+    headerPointsValue: document.getElementById('header-points-value'),
     celebrationLayer: document.getElementById('celebration-layer'),
     ctaDueNum: document.getElementById('cta-due-num'),
     milestoneTrack: document.getElementById('milestone-track'),
@@ -173,6 +176,33 @@
     updatePointsBadge();
   }
 
+  function clamp01(x) {
+    if (x < 0) return 0;
+    if (x > 1) return 1;
+    return x;
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  /** Uppdaterar CSS-variabler för poängräknaren: orange → mörkröd med högre poäng. */
+  function updatePointsBadgeHeatStyle(badge, points) {
+    if (!badge) return;
+    var heat = clamp01(points / POINTS_HEAT_MAX);
+    badge.style.setProperty('--points-heat', heat.toFixed(4));
+    var fh = lerp(32, 2, heat);
+    var fs = lerp(100, 86, heat);
+    var fl = lerp(50, 33, heat);
+    var flame = 'hsl(' + fh + ',' + fs + '%,' + fl + '%)';
+    var th = lerp(30, 0, heat);
+    var ts = lerp(100, 72, heat);
+    var tl = lerp(30, 22, heat);
+    var textCol = 'hsl(' + th + ',' + ts + '%,' + tl + '%)';
+    badge.style.setProperty('--score-flame', flame);
+    badge.style.setProperty('--score-text', textCol);
+  }
+
   function triggerPointsBadgePop() {
     var badge = el.headerPointsBadge;
     if (!badge) return;
@@ -194,8 +224,9 @@
     var skipPop = opts && opts.skipPop;
     var gained = lastBadgePoints !== null && totalPoints > lastBadgePoints;
     var t = String(totalPoints);
-    el.headerPointsBadge.textContent = t;
+    if (el.headerPointsValue) el.headerPointsValue.textContent = t;
     el.headerPointsBadge.setAttribute('aria-label', 'Poäng: ' + t);
+    updatePointsBadgeHeatStyle(el.headerPointsBadge, totalPoints);
     lastBadgePoints = totalPoints;
     if (gained && !skipPop) triggerPointsBadgePop();
   }
