@@ -17,6 +17,7 @@
   var MS_PER_DAY = 86400000;
   var KNEW_LONG_DAYS = 90;
   var CORRECT_DELAY_MS = 650;
+  var MILESTONE_TARGET = 5;
 
   var util = window.ExerciseTypes.util;
 
@@ -30,8 +31,11 @@
   var correctTimer = null;
   var celebrationTimer = null;
   var pointsBadgePopTimer = null;
+  var milestoneCountBumpTimer = null;
   /** Förra poängtal som visades i hörnet; null tills första uppdatering. */
   var lastBadgePoints = null;
+  /** Synligt antal i milstolpe-räknaren; kan tillfälligt stanna på 5 under celebration. */
+  var displayedMilestone = 0;
 
   var el = {
     statsTotal: document.getElementById('stat-total'),
@@ -40,7 +44,8 @@
     headerPointsBadge: document.getElementById('header-points-badge'),
     celebrationLayer: document.getElementById('celebration-layer'),
     ctaDueNum: document.getElementById('cta-due-num'),
-    studyProgressBar: document.getElementById('study-progress-bar'),
+    milestoneTrack: document.getElementById('milestone-track'),
+    milestoneProgress: document.getElementById('milestone-progress'),
     study: document.getElementById('study'),
     empty: document.getElementById('empty-state'),
     emptyMsg: document.getElementById('empty-message'),
@@ -53,6 +58,10 @@
     cardFeedbackText: document.getElementById('card-feedback-text'),
     btnContinue: document.getElementById('btn-continue'),
   };
+
+  var milestoneSegEls = el.milestoneTrack
+    ? Array.prototype.slice.call(el.milestoneTrack.querySelectorAll('.milestone__seg'))
+    : [];
 
   function parseMarkdown(text) {
     var lines = text.split(/\r?\n/);
@@ -268,14 +277,63 @@
     el.statsTotal.textContent = total ? String(total) : '0';
     el.statsDue.textContent = String(dueNow);
     if (el.ctaDueNum) el.ctaDueNum.textContent = String(dueNow);
-    if (el.studyProgressBar) {
-      if (total) {
-        var pct = Math.round(((total - dueNow) / total) * 100);
-        el.studyProgressBar.style.width = Math.max(8, pct) + '%';
-      } else {
-        el.studyProgressBar.style.width = '0%';
-      }
+  }
+
+  /**
+   * Renderar milstolpe-tracker (X / 5 segment).
+   * @param {{ complete?: boolean, animateNew?: boolean }} [opts]
+   *   complete: visa fullt (5/5) även om towardBonus är 0 (under celebration).
+   *   animateNew: animera segmentet som just blev fyllt.
+   */
+  function updateMilestone(opts) {
+    if (!el.milestoneTrack) return;
+    var complete = !!(opts && opts.complete);
+    var animateNew = !!(opts && opts.animateNew);
+    var nextVisible = complete
+      ? MILESTONE_TARGET
+      : Math.min(Math.max(0, towardBonus), MILESTONE_TARGET);
+    var prevVisible = displayedMilestone;
+
+    if (el.milestoneProgress) {
+      el.milestoneProgress.textContent = String(nextVisible);
     }
+    el.milestoneTrack.setAttribute('aria-valuenow', String(nextVisible));
+    el.milestoneTrack.classList.toggle('milestone__track--complete', complete);
+
+    for (var i = 0; i < milestoneSegEls.length; i++) {
+      var seg = milestoneSegEls[i];
+      var shouldFill = i < nextVisible;
+      seg.classList.toggle('milestone__seg--filled', shouldFill);
+      seg.classList.remove('milestone__seg--just-filled');
+    }
+
+    if (animateNew && nextVisible > prevVisible) {
+      var newestIdx = nextVisible - 1;
+      if (milestoneSegEls[newestIdx]) {
+        void milestoneSegEls[newestIdx].offsetWidth;
+        milestoneSegEls[newestIdx].classList.add('milestone__seg--just-filled');
+      }
+      bumpMilestoneCount();
+    }
+
+    displayedMilestone = nextVisible;
+  }
+
+  function bumpMilestoneCount() {
+    if (!el.milestoneProgress) return;
+    if (milestoneCountBumpTimer !== null) {
+      clearTimeout(milestoneCountBumpTimer);
+      milestoneCountBumpTimer = null;
+    }
+    el.milestoneProgress.classList.remove('milestone__count-now--bumped');
+    void el.milestoneProgress.offsetWidth;
+    el.milestoneProgress.classList.add('milestone__count-now--bumped');
+    milestoneCountBumpTimer = window.setTimeout(function () {
+      milestoneCountBumpTimer = null;
+      if (el.milestoneProgress) {
+        el.milestoneProgress.classList.remove('milestone__count-now--bumped');
+      }
+    }, 460);
   }
 
   function pickNextCard() {
@@ -319,21 +377,33 @@
     stateById[currentCard.id] = applyGrade(st, gradeName);
 
     var bonusPointsPendingBadgePop = false;
+    var milestoneReached = false;
     if (gradeName === 'knew') {
       towardBonus++;
-      if (towardBonus >= 5) {
+      if (towardBonus >= MILESTONE_TARGET) {
+        milestoneReached = true;
         towardBonus = 0;
         totalPoints += 5;
         bonusPointsPendingBadgePop = true;
-        showCelebration(function () {
-          triggerPointsBadgePop();
-        });
       }
     }
 
     saveStorage();
     updateStats();
     updatePointsBadge(bonusPointsPendingBadgePop ? { skipPop: true } : undefined);
+
+    if (milestoneReached) {
+      updateMilestone({ complete: true, animateNew: true });
+      showCelebration(function () {
+        triggerPointsBadgePop();
+        updateMilestone({});
+      });
+    } else if (gradeName === 'knew') {
+      updateMilestone({ animateNew: true });
+    } else {
+      updateMilestone({});
+    }
+
     setFeedback(false, '');
     renderCard(pickNextCard());
   }
@@ -398,6 +468,7 @@
     cards = doc.cards;
     mergeState(doc.cards);
     updateStats();
+    updateMilestone({});
     if (!cards.length) {
       if (el.dashboardZone) el.dashboardZone.hidden = true;
       setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i ' + DEFAULT_MD + '.');

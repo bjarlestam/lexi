@@ -1,4 +1,4 @@
-# Spanish homework
+# Lexi
 
 Liten klient-bara webbapp för spaced repetition av spanska glosor. Övningar definieras
 i en Markdown-fil (`exercises-small.md` eller `exercises.md`) och serveras kort för kort.

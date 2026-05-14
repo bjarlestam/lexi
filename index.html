@@ -49,10 +49,29 @@
           <span class="stat-pill__value" id="stat-due">0</span>
         </div>
       </div>
+      <div class="milestone" aria-label="Framsteg mot nästa bonus">
+        <span class="milestone__label">Nästa <span class="milestone__reward">+5p</span></span>
+        <div
+          class="milestone__track"
+          id="milestone-track"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="5"
+          aria-valuenow="0"
+        >
+          <span class="milestone__seg"></span>
+          <span class="milestone__seg"></span>
+          <span class="milestone__seg"></span>
+          <span class="milestone__seg"></span>
+          <span class="milestone__seg"></span>
+        </div>
+        <span class="milestone__count" aria-hidden="true">
+          <span class="milestone__count-now" id="milestone-progress">0</span>/<span class="milestone__count-target">5</span>
+        </span>
+      </div>
     </section>
 
     <main class="study" id="study" hidden>
-      <div class="study__progress" aria-hidden="true"><div class="study__progress-bar" id="study-progress-bar"></div></div>
       <article class="flashcard" aria-live="polite">
         <p class="flashcard__meta" id="card-chapter"></p>
         <p class="flashcard__task" id="card-task"></p>
