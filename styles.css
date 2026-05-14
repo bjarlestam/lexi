@@ -1,7 +1,7 @@
 :root {
-  --primary: #2d9e5f;
-  --primary-dark: #247a4a;
-  --primary-soft: #e8f5ee;
+  --primary: #2d963f;
+  --primary-dark: #267e36;
+  --primary-soft: #ebf7ee;
   --secondary: #ff8a00;
   --secondary-soft: #fff3e6;
   --tertiary: #1cc2e3;
@@ -13,15 +13,17 @@
   --surface: #ffffff;
   --again: #e53935;
   --again-hover: #c62828;
-  --good: #2d9e5f;
-  --good-hover: #268a52;
+  --good: #2d963f;
+  --good-hover: #267e36;
   --shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.06);
   --shadow-card: 0 8px 28px rgba(26, 26, 26, 0.1);
-  --shadow-cta: 0 12px 32px rgba(45, 158, 95, 0.28);
+  --shadow-cta: 0 12px 32px rgba(45, 150, 63, 0.28);
   --radius-panel: 16px;
   --radius-btn: 14px;
   --radius-pill: 999px;
   --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Lexend", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --focus-ring: 0 0 0 4px rgba(28, 194, 227, 0.35);
   --tap-min: 48px;
 }
 
@@ -89,6 +91,7 @@ body {
 
 .top-bar__hello {
   margin: 0;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--neutral-900);
@@ -168,7 +171,7 @@ body {
 }
 
 .cta-card {
-  background: linear-gradient(155deg, var(--primary) 0%, #259154 50%, var(--primary-dark) 100%);
+  background: linear-gradient(155deg, var(--primary) 0%, #298a3a 50%, var(--primary-dark) 100%);
   color: #fff;
   border-radius: var(--radius-panel);
   padding: 1.35rem 1.25rem 1.5rem;
@@ -179,6 +182,7 @@ body {
 
 .cta-card__title {
   margin: 0 0 0.5rem;
+  font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -395,6 +399,7 @@ body {
 
 .flashcard__prompt {
   margin: 0 0 1rem;
+  font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.3;
@@ -638,7 +643,7 @@ body {
 .pairs-token--selected {
   border-color: var(--primary);
   color: var(--primary-dark);
-  box-shadow: 0 0 0 2px rgba(45, 158, 95, 0.18);
+  box-shadow: 0 0 0 2px rgba(45, 150, 63, 0.18);
 }
 
 .pairs-token--matched {
@@ -712,7 +717,7 @@ body {
   background: var(--primary);
   color: #fff;
   font-size: 1rem;
-  box-shadow: 0 6px 20px rgba(45, 158, 95, 0.35);
+  box-shadow: 0 6px 20px rgba(45, 150, 63, 0.35);
 }
 
 .btn--primary:hover:not(:disabled) {
