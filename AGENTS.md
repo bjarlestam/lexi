@@ -1,7 +1,9 @@
 # Lexi
 
-Liten klient-bara webbapp för spaced repetition av spanska glosor. Övningar definieras
-i en Markdown-fil (`exercises-small.md` eller `exercises.md`) och serveras kort för kort.
+Liten klient-bara webbapp för spaced repetition av valfritt ämne (glosor, fakta,
+o.s.v.). Övningar definieras i en Markdown-fil (default `lessons.md`, kan bytas
+via `?lessons=…` i URL:en) och serveras kort för kort. Inget ämne är hårdkodat
+i appen – titel, hälsning, märke och deckId styrs av filens frontmatter.
 
 Inga build-steg. Öppna via `python3 -m http.server` och peka webbläsaren på `index.html`.
 
@@ -9,12 +11,31 @@ Inga build-steg. Öppna via `python3 -m http.server` och peka webbläsaren på `
 
 `app.js` är *värden* och äger bara det som är gemensamt mellan alla uppgiftstyper:
 
-- Hämtar och tolkar Markdown-filen
-- SRS-schemaläggning och persistens i `localStorage`
+- Hämtar och tolkar Markdown-filen (inkl. frontmatter med deck-metadata)
+- SRS-schemaläggning och persistens i `localStorage`, en nyckel per deck
 - Den gemensamma kortramen: kapitel, uppgiftsetikett, prompt, tips
 - Den generiska "Rätt svar: … / Fortsätt"-panelen vid felsvar
 
 Allt som är specifikt för en viss uppgiftstyp ligger i `exercises/<typ>.js`.
+
+### Lessons-filens frontmatter
+
+Toppen på filen kan innehålla en YAML-ish frontmatter som styr presentation
+och SRS-id:
+
+```
+---
+title: Spanska – repetition
+mark: ES
+greeting: ¡Hola!
+tagline: Spansk repetition
+deckId: spanish-v1
+---
+```
+
+`deckId` används som localStorage-suffix (`lexi-srs:<deckId>`) så olika
+lessons-filer får separata SRS-tillstånd. Saknas blocket används filnamnet
+som id.
 
 ### Registret
 

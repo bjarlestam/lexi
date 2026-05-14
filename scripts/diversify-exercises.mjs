@@ -11,7 +11,7 @@
  * Run with:
  *   node scripts/diversify-exercises.mjs [path-to-md]
  *
- * Defaults to exercises-spanish.md. Writes back to the same file.
+ * Defaults to lessons.md. Writes back to the same file.
  */
 import fs from 'fs';
 import path from 'path';
@@ -20,7 +20,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
 const inputArg = process.argv[2];
-const mdPath = path.resolve(root, inputArg || 'exercises-spanish.md');
+const mdPath = path.resolve(root, inputArg || 'lessons.md');
 
 const MAX_STREAK = 3;
 const MIN_PAIRS_GROUP = 4;
@@ -326,7 +326,7 @@ function emitAssemble(card, chapterCards) {
   const prompt = promptSide(card);
   const answer = answerSide(card);
   const pool = buildAssemblePool(card, chapterCards);
-  const defaultTask = direction === 'sv_es' ? 'Bygg meningen på spanska' : 'Bygg meningen på svenska';
+  const defaultTask = 'Bygg meningen';
   const task = card.task && tokenize(card.task).length > 0 ? card.task : defaultTask;
   const lines = [
     '- type: assemble',

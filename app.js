@@ -11,8 +11,22 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'spanish-srs:v1';
-  var DEFAULT_MD = 'exercises-spanish.md';
+  /**
+   * Default lessons-file. Kan ersättas via ?lessons=<filnamn> i URL:en
+   * eller genom att helt enkelt byta ut filen. UI-strängar (titel, märke,
+   * hälsning, tagline) styrs av frontmatter i toppen av filen.
+   */
+  var DEFAULT_LESSONS = 'lessons.md';
+  /** Prefix för storage-nyckeln. Slutar med deckId från frontmatter. */
+  var STORAGE_PREFIX = 'lexi-srs:';
+  /** Reservid om filen saknar deckId. */
+  var FALLBACK_DECK_ID = 'default';
+  /** Storage-nyckel som tidigare användes innan generaliseringen. */
+  var LEGACY_STORAGE_KEY = 'spanish-srs:v1';
+  /** Vilken deckId som motsvarar LEGACY_STORAGE_KEY. */
+  var LEGACY_DECK_ID = 'spanish-v1';
+
+  var STORAGE_KEY = STORAGE_PREFIX + FALLBACK_DECK_ID;
   var AGAIN_MS = 15 * 60 * 1000;
   var MS_PER_DAY = 86400000;
   var KNEW_LONG_DAYS = 90;
@@ -48,6 +62,9 @@
     celebrationLayer: document.getElementById('celebration-layer'),
     milestoneTrack: document.getElementById('milestone-track'),
     milestoneProgress: document.getElementById('milestone-progress'),
+    deckMark: document.getElementById('deck-mark'),
+    deckGreeting: document.getElementById('deck-greeting'),
+    deckTagline: document.getElementById('deck-tagline'),
     study: document.getElementById('study'),
     empty: document.getElementById('empty-state'),
     emptyMsg: document.getElementById('empty-message'),
@@ -65,11 +82,54 @@
     ? Array.prototype.slice.call(el.milestoneTrack.querySelectorAll('.milestone__seg'))
     : [];
 
+  /**
+   * Läser ev. YAML-ish frontmatter i toppen av filen:
+   *
+   *   ---
+   *   title: Spanska – repetition
+   *   mark: ES
+   *   greeting: ¡Hola!
+   *   tagline: Spansk repetition
+   *   deckId: spanish-v1
+   *   ---
+   *
+   * Returnerar { meta, endIdx } om en frontmatter hittas, annars null.
+   */
+  function parseFrontmatter(lines) {
+    var start = 0;
+    while (start < lines.length && lines[start].trim() === '') start++;
+    if (start >= lines.length || lines[start].trim() !== '---') return null;
+    var meta = {};
+    var i = start + 1;
+    while (i < lines.length && lines[i].trim() !== '---') {
+      var m = lines[i].match(/^([A-Za-z_][\w-]*)\s*:\s*(.*)$/);
+      if (m) {
+        var v = m[2].trim();
+        if (
+          (v.charAt(0) === '"' && v.charAt(v.length - 1) === '"') ||
+          (v.charAt(0) === "'" && v.charAt(v.length - 1) === "'")
+        ) {
+          v = v.slice(1, -1);
+        }
+        meta[m[1]] = v;
+      }
+      i++;
+    }
+    if (i >= lines.length) return null;
+    return { meta: meta, endIdx: i + 1 };
+  }
+
   function parseMarkdown(text) {
     var lines = text.split(/\r?\n/);
+    var meta = {};
+    var i = 0;
+    var fm = parseFrontmatter(lines);
+    if (fm) {
+      meta = fm.meta;
+      i = fm.endIdx;
+    }
     var chapter = 'Övrigt';
     var out = [];
-    var i = 0;
     var inHtmlComment = false;
 
     while (i < lines.length) {
@@ -112,7 +172,42 @@
       }
       i++;
     }
-    return { cards: out };
+    return { cards: out, meta: meta };
+  }
+
+  function setText(elem, text) {
+    if (!elem) return;
+    elem.textContent = text || '';
+  }
+
+  /** Applicerar metadata från frontmatter på sidans rubriker. */
+  function applyDeckMeta(meta) {
+    if (meta.title) document.title = meta.title;
+    setText(el.deckMark, meta.mark || '');
+    setText(el.deckGreeting, meta.greeting || '');
+    setText(el.deckTagline, meta.tagline || '');
+  }
+
+  /** Härleder en storage-nyckel utifrån frontmatter eller filnamn. */
+  function deriveDeckId(meta, lessonsPath) {
+    if (meta && typeof meta.deckId === 'string' && meta.deckId.trim()) {
+      return meta.deckId.trim();
+    }
+    var name = String(lessonsPath || '').split('/').pop() || '';
+    name = name.replace(/\.md$/i, '').replace(/[^a-zA-Z0-9._-]/g, '-');
+    return name || FALLBACK_DECK_ID;
+  }
+
+  /** En gång: kopiera ev. gammal "spanish-srs:v1"-data till nya nyckeln. */
+  function migrateLegacyStorage(newKey, deckId) {
+    if (deckId !== LEGACY_DECK_ID) return;
+    try {
+      if (localStorage.getItem(newKey)) return;
+      var legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (legacy) localStorage.setItem(newKey, legacy);
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function loadStorage() {
@@ -493,35 +588,57 @@
     finishRound('miss');
   });
 
-  function applyParsed(doc) {
+  /** Hämtar ev. ?lessons=<filnamn> ur URL:en, annars DEFAULT_LESSONS. */
+  function getLessonsPath() {
+    try {
+      var p = new URLSearchParams(window.location.search).get('lessons');
+      if (p && /^[A-Za-z0-9._\-\/]+$/.test(p)) return p;
+    } catch (e) {
+      /* ignore */
+    }
+    return DEFAULT_LESSONS;
+  }
+
+  function applyParsed(doc, lessonsPath) {
+    var meta = doc.meta || {};
+    applyDeckMeta(meta);
+    var deckId = deriveDeckId(meta, lessonsPath);
+    STORAGE_KEY = STORAGE_PREFIX + deckId;
+    migrateLegacyStorage(STORAGE_KEY, deckId);
+
     cards = doc.cards;
     mergeState(doc.cards);
     updateStats();
     updateMilestone({});
     if (!cards.length) {
       if (el.dashboardZone) el.dashboardZone.hidden = true;
-      setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i ' + DEFAULT_MD + '.');
+      setEmptyMessage(
+        'Inga kort hittades i filen. Kontrollera formatet i ' + lessonsPath + '.'
+      );
       return;
     }
     if (el.dashboardZone) el.dashboardZone.hidden = false;
     renderCard(pickNextCard());
   }
 
-  function loadText(text) {
-    applyParsed(parseMarkdown(text));
+  function loadText(text, lessonsPath) {
+    applyParsed(parseMarkdown(text), lessonsPath);
   }
 
   function tryFetchDefault() {
-    return fetch(DEFAULT_MD, { cache: 'no-store' })
+    var lessonsPath = getLessonsPath();
+    return fetch(lessonsPath, { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('fetch ' + r.status);
         return r.text();
       })
-      .then(loadText)
+      .then(function (text) {
+        loadText(text, lessonsPath);
+      })
       .catch(function () {
         setEmptyMessage(
           'Kunde inte ladda ' +
-            DEFAULT_MD +
+            lessonsPath +
             '. Starta en lokal webbserver i projektmappen (t.ex. python3 -m http.server) och öppna sidan därifrån.'
         );
       });

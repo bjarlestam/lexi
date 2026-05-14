@@ -4,7 +4,7 @@
  * Markdown shape:
  *
  *   - type: pairs
- *     direction: sv_es              # informational: left=svenska, right=spanska
+ *     direction: sv_es              # informativt fält som lessons-filen själv tolkar
  *     task: "Para ihop orden"       # optional, falls back to a default
  *     hint: "..."                   # optional
  *     left:

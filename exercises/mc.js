@@ -4,37 +4,26 @@
  * Markdown shape:
  *
  *   - type: mc
- *     direction: sv_es              # or es_sv
- *     task: "Översätt till spanska" # optional, falls back to a default
- *     front: "Hej"                  # source word (used for SRS id stability)
- *     back: "¡Hola!"                # target word
- *     prompt: "Hej"                 # what the user sees
- *     hint: "..."                   # optional
+ *     direction: sv_es      # eller es_sv – informativt fält som ärvs av kortet
+ *     task: "..."           # frivillig rubrik; en kort generisk fallback används annars
+ *     front: "..."          # källord (används för stabil SRS-id)
+ *     back: "..."           # målord
+ *     prompt: "..."         # texten användaren ser
+ *     hint: "..."           # frivilligt
  *     options:
  *       - "..."
  *       - "..."
  *       - "..."
  *       - "..."
- *     correct: 0                    # index of the correct option (or use "answer:")
+ *     correct: 0            # index på rätt option (eller använd "answer:")
  */
 (function () {
   'use strict';
 
   var util = window.ExerciseTypes.util;
-
-  function idVariant(idStr) {
-    var n = 0;
-    for (var i = 0; i < idStr.length; i++) n += idStr.charCodeAt(i);
-    return n;
-  }
-
-  function pickTaskLabels(idStr) {
-    var v = Math.floor(idVariant(idStr) / 3) % 2;
-    if (v === 0) {
-      return { svEs: 'Översätt till spanska', esSv: 'Översätt till svenska' };
-    }
-    return { svEs: 'Välj rätt spanska', esSv: 'Vad betyder det här?' };
-  }
+  /** Generiska fallbacks om kortet inte anger `task:`. Avsiktligt
+   *  ämnesneutrala — sätt en specifik task i Markdown om du vill ha det. */
+  var DEFAULT_TASK_LABEL = 'Välj rätt svar';
 
   function readArrayField(value) {
     if (Array.isArray(value)) return value.slice();
@@ -113,10 +102,9 @@
     return card.chapter + '\n' + card.front + '\n' + card.back + '\nflip';
   }
 
-  function resolveTaskLabel(card, idStr) {
+  function resolveTaskLabel(card /*, idStr */) {
     if (card.task) return card.task;
-    var labels = pickTaskLabels(idStr);
-    return card.direction === 'sv_es' ? labels.svEs : labels.esSv;
+    return DEFAULT_TASK_LABEL;
   }
 
   function render(zoneEl, card, hooks) {

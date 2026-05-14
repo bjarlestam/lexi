@@ -94,7 +94,7 @@
 
   function resolveTaskLabel(card) {
     if (card.task) return card.task;
-    return card.direction === 'sv_es' ? 'Bygg meningen på spanska' : 'Bygg meningen på svenska';
+    return 'Bygg meningen';
   }
 
   function render(zoneEl, card, hooks) {

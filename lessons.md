@@ -1,3 +1,11 @@
+---
+title: Spanska
+mark: ES
+greeting: ¡Hola!
+tagline: Spanska
+deckId: spanish-v1
+---
+
 <!-- these are currently not used, kept for reference until app is more finished -->
 
 # Kapitel 1 – Hej

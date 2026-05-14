@@ -1,6 +1,6 @@
 # Design system — *Vibrant Castillian*
 
-Designspecifikation för Spanska-repetitionsappen. Dokumentet är *källan*: när
+Designspecifikation för repetitionsappen. Dokumentet är *källan*: när
 designen och `styles.css` skiljer sig åt så är detta dokument det som
 gäller och koden ska följa efter.
 
