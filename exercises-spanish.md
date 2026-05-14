@@ -1,4 +1,4 @@
-<!-- these are currently not used, kept for reference untill app is more finished -->
+<!-- these are currently not used, kept for reference until app is more finished -->
 
 # Kapitel 1 – Hej
 
@@ -218,12 +218,12 @@
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "Var ligger Chile? (svar: kontinent)"
+  front: "Det ligger i Sydamerika."
   back: "Está en América del Sur."
   prompt: "Está en América del Sur."
   options:
-    - "hon är / den är (här: finns)"
-    - "Var ligger Chile? (svar: kontinent)"
+    - "han/hon/den/det är / ligger"
+    - "Det ligger i Sydamerika."
     - "flaggans färger (Spanien): gul"
     - "11"
   correct: 1
@@ -291,7 +291,7 @@
   options:
     - "veintinueve"
     - "Salidas"
-    - "gràcies"
+    - "gracias"
     - "rojo"
   correct: 1
 
@@ -353,12 +353,12 @@
   direction: sv_es
   task: "Översätt till spanska"
   prompt: "ett marsvin"
-  answer: "un conejillo de indias"
+  answer: "un conejillo de Indias"
   pool:
     - "un"
     - "conejillo"
     - "de"
-    - "indias"
+    - "Indias"
     - "Tengo"
     - "padre"
     - "perro"
@@ -434,11 +434,11 @@
   direction: es_sv
   task: "Vad betyder det här?"
   prompt: "No tengo mascotas."
-  answer: "Jag har inte husdjur."
+  answer: "Jag har inga husdjur."
   pool:
     - "Jag"
     - "har"
-    - "inte"
+    - "inga"
     - "husdjur."
     - "husdjur"
     - "heter"
@@ -572,12 +572,12 @@
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "moped / scooter"
+  front: "motorcykel / scooter"
   back: "la moto"
   prompt: "la moto"
   options:
     - "päron"
-    - "moped / scooter"
+    - "motorcykel / scooter"
     - "Min favoritfärg är röd."
     - "Jag går. / Jag tar det."
   correct: 1
@@ -666,7 +666,7 @@
 - type: assemble
   direction: sv_es
   task: "Översätt till spanska"
-  prompt: "Välkommen till den spansktalande världen!"
+  prompt: "Välkomna till den spansktalande världen!"
   answer: "¡Bienvenidos al mundo hispánico!"
   pool:
     - "¡Bienvenidos"
@@ -694,9 +694,9 @@
   direction: es_sv
   task: "Vad betyder det här?"
   prompt: "Está en África."
-  answer: "Den ligger i Afrika."
+  answer: "Det ligger i Afrika."
   pool:
-    - "Den"
+    - "Det"
     - "ligger"
     - "i"
     - "Afrika."
@@ -792,7 +792,7 @@
   options:
     - "vi ses snart"
     - "ett land"
-    - "Jag har inte husdjur."
+    - "Jag har inga husdjur."
     - "Afrika"
   correct: 3
 
@@ -833,7 +833,7 @@
   options:
     - "vi ses snart"
     - "ett land"
-    - "Jag har inte husdjur."
+    - "Jag har inga husdjur."
     - "Europa"
   correct: 3
 
@@ -968,7 +968,7 @@
     - "är"
     - "tretton"
     - "år"
-    - "läger-tält"
+    - "campingtält"
     - "stad"
     - "en"
 
@@ -978,7 +978,7 @@
   left:
     - "blomma"
     - "träd"
-    - "läger-tält"
+    - "campingtält"
     - "sjö"
   right:
     - "la flor"
@@ -1107,7 +1107,7 @@
     - "Min son heter …"
     - "flicka"
     - "svenska (språket)"
-    - "bokstavsv namn: J"
+    - "bokstavens namn: J"
   correct: 2
 
 - type: mc
@@ -1141,11 +1141,11 @@
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "hon är / den är (här: finns)"
+  front: "han/hon/den/det är / ligger"
   back: "está"
   prompt: "está"
   options:
-    - "hon är / den är (här: finns)"
+    - "han/hon/den/det är / ligger"
     - "arton (18)"
     - "10"
     - "(han/hon) bor"
@@ -1282,9 +1282,9 @@
   direction: es_sv
   task: "Vad betyder det här?"
   prompt: "uve"
-  answer: "bokstavsv namn: V"
+  answer: "bokstavens namn: V"
   pool:
-    - "bokstavsv"
+    - "bokstavens"
     - "namn:"
     - "V"
     - "inte"
@@ -1295,9 +1295,9 @@
   direction: es_sv
   task: "Översätt till svenska"
   prompt: "uve doble"
-  answer: "bokstavsv namn: W"
+  answer: "bokstavens namn: W"
   pool:
-    - "bokstavsv"
+    - "bokstavens"
     - "namn:"
     - "W"
     - "J"
@@ -1321,9 +1321,9 @@
   direction: es_sv
   task: "Vad betyder det här?"
   prompt: "jota"
-  answer: "bokstavsv namn: J"
+  answer: "bokstavens namn: J"
   pool:
-    - "bokstavsv"
+    - "bokstavens"
     - "namn:"
     - "J"
     - "spanska"
@@ -1481,9 +1481,9 @@
 - type: mc
   direction: sv_es
   task: "Översätt till spanska"
-  front: "Hur är …? / Hur är din familj?"
+  front: "Hurdan är …? / Hurdan är din familj?"
   back: "¿Cómo es …? / ¿Cómo es tu familia?"
-  prompt: "Hur är …? / Hur är din familj?"
+  prompt: "Hurdan är …? / Hurdan är din familj?"
   options:
     - "gracias"
     - "en total"
@@ -1595,7 +1595,7 @@
     - "tre hundar"
     - "Var ligger Spanien?"
     - "hej då (adjö)"
-    - "Den ligger i Afrika."
+    - "Det ligger i Afrika."
   correct: 0
 
 - type: assemble
@@ -1618,7 +1618,7 @@
   left:
     - "namn"
     - "häst"
-    - "fisk(ar)"
+    - "fiskar"
     - "hamster"
   right:
     - "el nombre"
@@ -1795,7 +1795,7 @@
     - "Min son heter …"
     - "flicka"
     - "tjugotre (23)"
-    - "bokstavsv namn: W"
+    - "bokstavens namn: W"
   correct: 2
 
 - type: mc
@@ -1805,7 +1805,7 @@
   back: "veinticuatro"
   prompt: "tjugofyra (24)"
   options:
-    - "un conejillo de indias"
+    - "un conejillo de Indias"
     - "el nombre"
     - "amarillo"
     - "veinticuatro"
@@ -1821,7 +1821,7 @@
     - "tjugofem (25)"
     - "Var ligger Spanien?"
     - "hej då (adjö)"
-    - "Den ligger i Afrika."
+    - "Det ligger i Afrika."
   correct: 0
 
 - type: pairs
@@ -1881,12 +1881,11 @@
   direction: sv_es
   task: "Välj rätt spanska"
   prompt: "havssköldpadda"
-  answer: "la tortuga del mar"
+  answer: "la tortuga marina"
   pool:
     - "la"
     - "tortuga"
-    - "del"
-    - "mar"
+    - "marina"
     - "guía"
     - "nacional"
     - "aquí"
@@ -1977,12 +1976,12 @@
   direction: es_sv
   task: "Översätt till svenska"
   prompt: "El verde es mi color favorito."
-  answer: "Grön är min favoritfärg."
+  answer: "Min favoritfärg är grön."
   pool:
-    - "Grön"
+    - "Min"
+    - "favoritfärg"
     - "är"
-    - "min"
-    - "favoritfärg."
+    - "grön."
     - "du"
     - "vit,"
     - "svart"
@@ -2091,7 +2090,7 @@
   task: "Para ihop orden"
   left:
     - "ett land"
-    - "invånare"
+    - "invånarna"
     - "Belize"
     - "typiska rätter"
   right:
@@ -2164,7 +2163,7 @@
   options:
     - "inget mer"
     - "god eftermiddag"
-    - "Hur är …? / Hur är din familj?"
+    - "Hurdan är …? / Hurdan är din familj?"
     - "fjorton (14)"
   correct: 0
 
@@ -2244,7 +2243,7 @@
     - "din familj"
     - "goda (om mat)"
     - "Karibien"
-    - "Jag har inte husdjur."
+    - "Jag har inga husdjur."
   correct: 1
 
 - type: pairs
@@ -2283,7 +2282,7 @@
   options:
     - "ja"
     - "okej (vard.)"
-    - "bokstavsv namn: V"
+    - "bokstavens namn: V"
     - "1"
   correct: 1
 
