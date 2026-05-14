@@ -1,15 +1,30 @@
+/**
+ * App host. Owns:
+ *   - loading the markdown file and turning it into card objects via ExerciseTypes
+ *   - SRS state (per-card schedule) and localStorage persistence
+ *   - the shared card frame (chapter / task / prompt / hint + "wrong answer" feedback)
+ *   - delegating the interactive zone to the registered handler for each card's type
+ *
+ * The interactive part of every exercise type lives in exercises/<type>.js;
+ * see exercises/registry.js for the handler contract.
+ */
 (function () {
   'use strict';
 
   var STORAGE_KEY = 'spanish-srs:v1';
-  var DEFAULT_MD = 'exercises.md';
+  var DEFAULT_MD = 'exercises-small.md';
   var AGAIN_MS = 15 * 60 * 1000;
   var MS_PER_DAY = 86400000;
   var KNEW_LONG_DAYS = 90;
+  var CORRECT_DELAY_MS = 650;
+
+  var util = window.ExerciseTypes.util;
 
   var cards = [];
   var stateById = {};
-  var currentCardId = null;
+  var currentCard = null;
+  var currentRoundToken = 0;
+  var correctTimer = null;
 
   var el = {
     statsTotal: document.getElementById('stat-total'),
@@ -22,31 +37,14 @@
     empty: document.getElementById('empty-state'),
     emptyMsg: document.getElementById('empty-message'),
     cardChapter: document.getElementById('card-chapter'),
-    cardFront: document.getElementById('card-front'),
+    cardTask: document.getElementById('card-task'),
+    cardPrompt: document.getElementById('card-prompt'),
     cardHint: document.getElementById('card-hint'),
-    btnReveal: document.getElementById('btn-reveal'),
-    cardBackWrap: document.getElementById('card-back-wrap'),
-    cardBack: document.getElementById('card-back'),
+    exerciseZone: document.getElementById('exercise-zone'),
+    cardFeedback: document.getElementById('card-feedback'),
+    cardFeedbackText: document.getElementById('card-feedback-text'),
+    btnContinue: document.getElementById('btn-continue'),
   };
-
-  function hashId(chapter, front, back) {
-    var s = chapter + '\n' + front + '\n' + back + '\nflip';
-    var h = 0;
-    for (var i = 0; i < s.length; i++) {
-      h = (h << 5) - h + s.charCodeAt(i);
-      h |= 0;
-    }
-    return 'c' + (h >>> 0).toString(36);
-  }
-
-  function stripQuotes(raw) {
-    var t = raw.trim();
-    if ((t.charAt(0) === '"' && t.charAt(t.length - 1) === '"') ||
-        (t.charAt(0) === "'" && t.charAt(t.length - 1) === "'")) {
-      return t.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
-    }
-    return t;
-  }
 
   function parseMarkdown(text) {
     var lines = text.split(/\r?\n/);
@@ -74,33 +72,28 @@
         i++;
         continue;
       }
-      if (/^\s*-\s*type:\s*flip\b/.test(line)) {
-        var card = { type: 'flip', chapter: chapter, front: '', back: '', hint: '' };
-        i++;
-        while (i < lines.length) {
-          var L = lines[i];
-          if (/^\s*-\s*type:\s*\w+/.test(L)) break;
-          if (/^# /.test(L)) break;
-          var kv = L.match(/^\s{2,}(\w+):\s*(.*)$/);
-          if (kv) {
-            var key = kv[1].toLowerCase();
-            var val = stripQuotes(kv[2]);
-            if (key === 'front') card.front = val;
-            else if (key === 'back') card.back = val;
-            else if (key === 'hint') card.hint = val;
-            else if (key === 'chapter') card.chapter = val;
+      var typeMatch = line.match(/^\s*-\s*type:\s*(\w+)\b/);
+      if (typeMatch) {
+        var typeName = typeMatch[1];
+        var handler = window.ExerciseTypes.get(typeName);
+        if (handler && typeof handler.parseBlock === 'function') {
+          var res = handler.parseBlock(lines, i + 1, { chapter: chapter });
+          if (res && res.card && handler.isValid(res.card)) {
+            var card = res.card;
+            card.type = typeName;
+            if (!card.chapter) card.chapter = chapter;
+            card.id = util.hashId(handler.getSignature(card));
+            out.push(card);
           }
-          i++;
+          i = res && typeof res.nextIdx === 'number' ? res.nextIdx : i + 1;
+          continue;
         }
-        if (card.front && card.back) {
-          card.id = hashId(card.chapter, card.front, card.back);
-          out.push(card);
-        }
+        i = util.skipUnknownBlock(lines, i + 1);
         continue;
       }
       i++;
     }
-    return out;
+    return { cards: out };
   }
 
   function loadStorage() {
@@ -120,12 +113,7 @@
   }
 
   function defaultState() {
-    return {
-      ease: 2.5,
-      reps: 0,
-      intervalDays: 0,
-      due: Date.now(),
-    };
+    return { ease: 2.5, reps: 0, intervalDays: 0, due: Date.now() };
   }
 
   function mergeState(parsed) {
@@ -200,9 +188,8 @@
   }
 
   function updateStats() {
-    var list = cards;
-    var total = list.length;
-    var dueNow = countDueNow(list, Date.now());
+    var total = cards.length;
+    var dueNow = countDueNow(cards, Date.now());
     el.statsTotal.textContent = total ? String(total) : '0';
     el.statsDue.textContent = String(dueNow);
     if (el.headerDueBadge) el.headerDueBadge.textContent = String(dueNow);
@@ -218,15 +205,14 @@
   }
 
   function pickNextCard() {
-    var list = cards;
-    if (!list.length) return null;
+    if (!cards.length) return null;
     var now = Date.now();
     var dueList = [];
-    for (var i = 0; i < list.length; i++) {
-      var st = stateById[list[i].id] || defaultState();
-      if (st.due <= now) dueList.push(list[i]);
+    for (var i = 0; i < cards.length; i++) {
+      var st = stateById[cards[i].id] || defaultState();
+      if (st.due <= now) dueList.push(cards[i]);
     }
-    var pool = dueList.length ? dueList : list.slice();
+    var pool = dueList.length ? dueList : cards.slice();
     pool.sort(function (a, b) {
       return (stateById[a.id] || defaultState()).due - (stateById[b.id] || defaultState()).due;
     });
@@ -244,14 +230,42 @@
     if (el.dashboardZone) el.dashboardZone.hidden = true;
   }
 
+  function setFeedback(show, text) {
+    el.cardFeedback.hidden = !show;
+    el.cardFeedbackText.textContent = text || '';
+  }
+
+  function finishRound(gradeName) {
+    if (correctTimer !== null) {
+      clearTimeout(correctTimer);
+      correctTimer = null;
+    }
+    if (!currentCard) return;
+    var st = stateById[currentCard.id] || defaultState();
+    stateById[currentCard.id] = applyGrade(st, gradeName);
+    saveStorage();
+    updateStats();
+    setFeedback(false, '');
+    renderCard(pickNextCard());
+  }
+
   function renderCard(card) {
-    if (!card) {
+    currentRoundToken++;
+    var roundToken = currentRoundToken;
+    currentCard = card;
+    if (!card) return;
+
+    var handler = window.ExerciseTypes.get(card.type);
+    if (!handler) {
+      setEmptyMessage('Okänd uppgiftstyp: ' + card.type);
       return;
     }
-    currentCardId = card.id;
-    el.cardChapter.textContent = card.chapter;
-    el.cardFront.textContent = card.front;
-    el.cardBack.textContent = card.back;
+
+    el.cardChapter.textContent = card.chapter || '';
+    el.cardTask.textContent = handler.resolveTaskLabel
+      ? handler.resolveTaskLabel(card, card.id)
+      : card.task || '';
+    el.cardPrompt.textContent = card.prompt || '';
     if (card.hint) {
       el.cardHint.textContent = 'Tips: ' + card.hint;
       el.cardHint.hidden = false;
@@ -259,33 +273,45 @@
       el.cardHint.textContent = '';
       el.cardHint.hidden = true;
     }
-    el.btnReveal.hidden = false;
-    el.cardBackWrap.hidden = true;
+    setFeedback(false, '');
+
+    var hooks = {
+      acceptCorrect: function () {
+        if (roundToken !== currentRoundToken) return;
+        if (correctTimer !== null) clearTimeout(correctTimer);
+        correctTimer = window.setTimeout(function () {
+          correctTimer = null;
+          finishRound('knew');
+        }, CORRECT_DELAY_MS);
+      },
+      acceptWrong: function (info) {
+        if (roundToken !== currentRoundToken) return;
+        var ct = (info && info.correctText) || '';
+        setFeedback(true, 'Rätt svar: ' + ct);
+      },
+      skip: function () {
+        if (roundToken !== currentRoundToken) return;
+        finishRound('miss');
+      },
+    };
+
+    while (el.exerciseZone.firstChild) el.exerciseZone.removeChild(el.exerciseZone.firstChild);
+    handler.render(el.exerciseZone, card, hooks);
+
     showStudy(true);
   }
 
-  function reveal() {
-    el.btnReveal.hidden = true;
-    el.cardBackWrap.hidden = false;
-  }
+  el.btnContinue.addEventListener('click', function () {
+    finishRound('miss');
+  });
 
-  function grade(gradeName) {
-    if (!currentCardId) return;
-    var st = stateById[currentCardId] || defaultState();
-    var next = applyGrade(st, gradeName);
-    stateById[currentCardId] = next;
-    saveStorage();
-    updateStats();
-    renderCard(pickNextCard());
-  }
-
-  function applyParsed(parsed) {
-    cards = parsed;
-    mergeState(parsed);
+  function applyParsed(doc) {
+    cards = doc.cards;
+    mergeState(doc.cards);
     updateStats();
     if (!cards.length) {
       if (el.dashboardZone) el.dashboardZone.hidden = true;
-      setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i exercises.md.');
+      setEmptyMessage('Inga kort hittades i filen. Kontrollera formatet i ' + DEFAULT_MD + '.');
       return;
     }
     if (el.dashboardZone) el.dashboardZone.hidden = false;
@@ -293,8 +319,7 @@
   }
 
   function loadText(text) {
-    var parsed = parseMarkdown(text);
-    applyParsed(parsed);
+    applyParsed(parseMarkdown(text));
   }
 
   function tryFetchDefault() {
@@ -306,20 +331,11 @@
       .then(loadText)
       .catch(function () {
         setEmptyMessage(
-          'Kunde inte ladda exercises.md. Starta en lokal webbserver i projektmappen (t.ex. python3 -m http.server) och öppna sidan därifrån.'
+          'Kunde inte ladda ' +
+            DEFAULT_MD +
+            '. Starta en lokal webbserver i projektmappen (t.ex. python3 -m http.server) och öppna sidan därifrån.'
         );
       });
-  }
-
-  el.btnReveal.addEventListener('click', reveal);
-
-  var gradeButtons = document.querySelectorAll('[data-grade]');
-  for (var g = 0; g < gradeButtons.length; g++) {
-    gradeButtons[g].addEventListener('click', function (ev) {
-      var btn = ev.currentTarget;
-      var gname = btn.getAttribute('data-grade');
-      grade(gname);
-    });
   }
 
   tryFetchDefault();

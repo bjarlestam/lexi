@@ -47,15 +47,13 @@
       <div class="study__progress" aria-hidden="true"><div class="study__progress-bar" id="study-progress-bar"></div></div>
       <article class="flashcard" aria-live="polite">
         <p class="flashcard__meta" id="card-chapter"></p>
-        <p class="flashcard__prompt" id="card-front"></p>
+        <p class="flashcard__task" id="card-task"></p>
+        <p class="flashcard__prompt" id="card-prompt"></p>
         <p class="flashcard__hint" id="card-hint" hidden></p>
-        <button type="button" id="btn-reveal" class="btn btn--primary">Visa svar</button>
-        <div class="flashcard__answer" id="card-back-wrap" hidden>
-          <p class="flashcard__answer-text" id="card-back"></p>
-          <div class="grade-row" role="group" aria-label="Kunde du svaret?">
-            <button type="button" class="btn btn--knew" data-grade="knew">Jag kunde den</button>
-            <button type="button" class="btn btn--miss" data-grade="miss">Jag kunde inte den</button>
-          </div>
+        <div id="exercise-zone" class="exercise-zone"></div>
+        <div class="card-feedback" id="card-feedback" hidden>
+          <p class="card-feedback__text" id="card-feedback-text"></p>
+          <button type="button" id="btn-continue" class="btn btn--primary">Fortsätt</button>
         </div>
       </article>
     </main>
@@ -65,6 +63,9 @@
     </section>
   </div>
 
+  <script src="exercises/registry.js"></script>
+  <script src="exercises/mc.js"></script>
+  <script src="exercises/assemble.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
