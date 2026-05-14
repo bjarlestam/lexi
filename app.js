@@ -12,7 +12,7 @@
   'use strict';
 
   var STORAGE_KEY = 'spanish-srs:v1';
-  var DEFAULT_MD = 'exercises-small.md';
+  var DEFAULT_MD = 'exercises-spanish.md';
   var AGAIN_MS = 15 * 60 * 1000;
   var MS_PER_DAY = 86400000;
   var KNEW_LONG_DAYS = 90;
