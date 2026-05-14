@@ -21,7 +21,6 @@
   'use strict';
 
   var util = window.ExerciseTypes.util;
-  var OPTION_LETTERS = ['A', 'B', 'C', 'D'];
 
   function idVariant(idStr) {
     var n = 0;
@@ -160,9 +159,7 @@
       if (correct) {
         hooks.acceptCorrect();
       } else {
-        var rightText = btnNodes[correctIdx]
-          ? btnNodes[correctIdx].querySelector('.mc-option__label').textContent
-          : '';
+        var rightText = btnNodes[correctIdx] ? btnNodes[correctIdx].textContent : '';
         hooks.acceptWrong({ correctText: rightText });
       }
     }
@@ -172,15 +169,7 @@
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'mc-option';
-        b.setAttribute('aria-label', 'Alternativ ' + OPTION_LETTERS[idx]);
-        var badge = document.createElement('span');
-        badge.className = 'mc-option__badge';
-        badge.textContent = OPTION_LETTERS[idx];
-        var lab = document.createElement('span');
-        lab.className = 'mc-option__label';
-        lab.textContent = optsMc[idx];
-        b.appendChild(badge);
-        b.appendChild(lab);
+        b.textContent = optsMc[idx];
         b.addEventListener('click', function () {
           onClick(idx);
         });
