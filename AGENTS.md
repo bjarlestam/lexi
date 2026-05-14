@@ -63,3 +63,6 @@ Befintliga typer:
 Varje korts id härleds genom `util.hashId(handler.getSignature(card))`. För att
 behålla SRS-historik vid omskrivningar måste `getSignature` returnera samma sträng
 för "samma" kort. MC använder bakåtkompatibel `chapter + front + back + 'flip'`.
+
+## Design
+Appen ska vara mobilanpassad, färger m.m. finns specade i DESIGN.md
