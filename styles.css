@@ -300,48 +300,6 @@ html.ms-icons-ready .top-bar__badge--points .points-badge__ms-flame.material-sym
   margin-bottom: 1rem;
 }
 
-.cta-card {
-  background: linear-gradient(155deg, var(--primary) 0%, #298a3a 50%, var(--primary-dark) 100%);
-  color: #fff;
-  border-radius: var(--radius-panel);
-  padding: 1.35rem 1.25rem 1.5rem;
-  margin-bottom: 0.75rem;
-  box-shadow: var(--shadow-cta);
-  text-align: left;
-}
-
-.cta-card__title {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.cta-card__lead {
-  margin: 0 0 0.35rem;
-  font-size: 1rem;
-  font-weight: 500;
-  opacity: 0.95;
-}
-
-.cta-card__accent {
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: -0.03em;
-}
-
-.cta-card__lead-text {
-  font-weight: 500;
-}
-
-.cta-card__sub {
-  margin: 0;
-  font-size: 0.8125rem;
-  opacity: 0.88;
-  line-height: 1.4;
-}
-
 .stat-pills {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -364,11 +322,12 @@ html.ms-icons-ready .top-bar__badge--points .points-badge__ms-flame.material-sym
 .stat-pill__label {
   display: block;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--neutral-500);
   margin-bottom: 0.2rem;
+  white-space: nowrap;
 }
 
 .stat-pill__value {

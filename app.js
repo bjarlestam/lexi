@@ -46,7 +46,6 @@
     headerPointsBadge: document.getElementById('header-points-badge'),
     headerPointsValue: document.getElementById('header-points-value'),
     celebrationLayer: document.getElementById('celebration-layer'),
-    ctaDueNum: document.getElementById('cta-due-num'),
     milestoneTrack: document.getElementById('milestone-track'),
     milestoneProgress: document.getElementById('milestone-progress'),
     study: document.getElementById('study'),
@@ -307,7 +306,6 @@
     var dueNow = countDueNow(cards, Date.now());
     el.statsTotal.textContent = total ? String(total) : '0';
     el.statsDue.textContent = String(dueNow);
-    if (el.ctaDueNum) el.ctaDueNum.textContent = String(dueNow);
   }
 
   /**
