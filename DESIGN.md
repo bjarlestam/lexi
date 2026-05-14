@@ -81,7 +81,7 @@ Fyra grundfärger med var sin 10-stegs ramp (50 → 900). Bas-stegget i fet stil
 | `border`           | `neutral-200`               | Kanter, dividers                              |
 | `again` / fel      | `#E53935` (hover `#C62828`) | Fel svar, varning                             |
 | `good` / rätt      | `primary-500`               | Rätt svar, bekräftelse                        |
-| `focus-ring`       | `tertiary-500` 35 % opacitet| Tangentbordsfokus                             |
+| `focus-ring`       | `tertiary-500` 55 % opacitet, 3 px outline, 2 px offset | Tangentbordsfokus (`:focus-visible`) |
 
 ## 2. Typografi
 
@@ -222,12 +222,15 @@ Befintliga variabler i `styles.css` med rekommenderade justeringar för att matc
 | `--neutral-100`   | `#f5f5f7`  | `#F5F5F7`        | OK                                |
 | `--font`          | Plus Jakarta Sans | Plus Jakarta Sans | OK                          |
 | `--font-display`  | Lexend     | Lexend           | OK                                |
-| `--focus-ring`    | tertiary 35 % | tertiary 35 % | OK (variabeln finns; appliceras än så länge bara där `:focus-visible` används) |
+| `--focus-ring-*`  | tertiary 55 %, 3 px outline, 2 px offset | tertiary 55 %, 3 px, 2 px | OK |
+| `--primary-{50..900}`  | finns      | finns            | OK (full ramp)               |
+| `--secondary-{50..900}`| finns      | finns            | OK                           |
+| `--tertiary-{50..900}` | finns      | finns            | OK                           |
+| `--neutral-{50..900}`  | finns      | finns            | OK                           |
 
-Saknas fortfarande:
-
-- Hela `primary-` / `secondary-` / `tertiary-` rampen (50–900) som separata
-  variabler om/när vi behöver fler steg i CSS.
+Existerande aliasen (`--primary`, `--primary-dark`, `--primary-soft`, `--secondary`,
+`--secondary-soft`, `--tertiary`, `--good`, `--good-hover`) pekar nu på respektive
+rampsteg och kan användas som genvägar.
 
 ## 6. Tillgänglighet
 
@@ -241,6 +244,5 @@ Saknas fortfarande:
 - [x] Uppdatera `--primary` och `--primary-dark` till spec-värdena.
 - [x] Lägg in Lexend i `<head>` och introducera `--font-display`.
 - [x] Använd `--font-display` på `.top-bar__hello`, `.cta-card__title`, `.flashcard__prompt`.
-- [ ] Definiera fullständig 50–900 ramp som CSS-variabler i `:root`.
-- [ ] Lägg till explicit `:focus-visible`-stil som använder `--focus-ring` på
-  knappar, MC-alternativ och pairs-tokens (idag har de inget eget fokusring).
+- [x] Definiera fullständig 50–900 ramp som CSS-variabler i `:root`.
+- [x] Explicit `:focus-visible`-stil på `.btn`, `.mc-option`, `.pairs-token`, `.asm-token`.
