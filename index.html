@@ -19,7 +19,15 @@
           <p class="top-bar__tagline">Spansk repetition</p>
         </div>
       </div>
-      <div class="top-bar__badge" id="header-due-badge" title="Kort att repetera nu" aria-live="polite">0</div>
+      <div
+        class="top-bar__badge top-bar__badge--points"
+        id="header-points-badge"
+        title="Samlade poäng"
+        aria-live="polite"
+        aria-label="Poäng"
+      >
+        0
+      </div>
     </header>
 
     <section class="dashboard" id="dashboard-zone" hidden>
@@ -61,6 +69,22 @@
     <section class="empty-state panel" id="empty-state">
       <p id="empty-message">Laddar övningar…</p>
     </section>
+
+    <div class="celebration-layer" id="celebration-layer" aria-live="assertive" aria-hidden="true">
+      <div class="celebration-layer__burst" aria-hidden="true">
+        <span class="celebration-layer__spark"></span>
+        <span class="celebration-layer__spark"></span>
+        <span class="celebration-layer__spark"></span>
+        <span class="celebration-layer__spark"></span>
+        <span class="celebration-layer__spark"></span>
+        <span class="celebration-layer__spark"></span>
+      </div>
+      <div class="celebration-layer__card">
+        <p class="celebration-layer__kicker">Boom!</p>
+        <p class="celebration-layer__title">Fem uppgifter klara</p>
+        <p class="celebration-layer__subtitle">+5 poäng</p>
+      </div>
+    </div>
   </div>
 
   <script src="exercises/registry.js"></script>

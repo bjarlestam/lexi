@@ -22,15 +22,23 @@
 
   var cards = [];
   var stateById = {};
+  var totalPoints = 0;
+  /** Antal rätt svar (knew) sedan senaste bonus; vid 5 → +5 poäng och nollställs. */
+  var towardBonus = 0;
   var currentCard = null;
   var currentRoundToken = 0;
   var correctTimer = null;
+  var celebrationTimer = null;
+  var pointsBadgePopTimer = null;
+  /** Förra poängtal som visades i hörnet; null tills första uppdatering. */
+  var lastBadgePoints = null;
 
   var el = {
     statsTotal: document.getElementById('stat-total'),
     statsDue: document.getElementById('stat-due'),
     dashboardZone: document.getElementById('dashboard-zone'),
-    headerDueBadge: document.getElementById('header-due-badge'),
+    headerPointsBadge: document.getElementById('header-points-badge'),
+    celebrationLayer: document.getElementById('celebration-layer'),
     ctaDueNum: document.getElementById('cta-due-num'),
     studyProgressBar: document.getElementById('study-progress-bar'),
     study: document.getElementById('study'),
@@ -99,17 +107,25 @@
   function loadStorage() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { v: 1, byId: {} };
+      if (!raw) return { v: 1, byId: {}, points: 0, towardBonus: 0 };
       var o = JSON.parse(raw);
-      if (!o || typeof o !== 'object' || !o.byId) return { v: 1, byId: {} };
+      if (!o || typeof o !== 'object' || !o.byId) return { v: 1, byId: {}, points: 0, towardBonus: 0 };
       return o;
     } catch (e) {
-      return { v: 1, byId: {} };
+      return { v: 1, byId: {}, points: 0, towardBonus: 0 };
     }
   }
 
   function saveStorage() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ v: 1, byId: stateById }));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        v: 1,
+        byId: stateById,
+        points: totalPoints,
+        towardBonus: towardBonus,
+      })
+    );
   }
 
   function defaultState() {
@@ -119,6 +135,14 @@
   function mergeState(parsed) {
     var stored = loadStorage();
     stateById = stored.byId || {};
+    totalPoints =
+      typeof stored.points === 'number' && !isNaN(stored.points)
+        ? Math.max(0, Math.floor(stored.points))
+        : 0;
+    towardBonus =
+      typeof stored.towardBonus === 'number' && !isNaN(stored.towardBonus)
+        ? Math.min(4, Math.max(0, Math.floor(stored.towardBonus)))
+        : 0;
     var seen = {};
     for (var i = 0; i < parsed.length; i++) {
       seen[parsed[i].id] = true;
@@ -137,6 +161,57 @@
       if (!seen[keys[k]]) delete stateById[keys[k]];
     }
     saveStorage();
+    updatePointsBadge();
+  }
+
+  function triggerPointsBadgePop() {
+    var badge = el.headerPointsBadge;
+    if (!badge) return;
+    if (pointsBadgePopTimer !== null) {
+      clearTimeout(pointsBadgePopTimer);
+      pointsBadgePopTimer = null;
+    }
+    badge.classList.remove('top-bar__badge--pop');
+    void badge.offsetWidth;
+    badge.classList.add('top-bar__badge--pop');
+    pointsBadgePopTimer = window.setTimeout(function () {
+      pointsBadgePopTimer = null;
+      badge.classList.remove('top-bar__badge--pop');
+    }, 600);
+  }
+
+  function updatePointsBadge(opts) {
+    if (!el.headerPointsBadge) return;
+    var skipPop = opts && opts.skipPop;
+    var gained = lastBadgePoints !== null && totalPoints > lastBadgePoints;
+    var t = String(totalPoints);
+    el.headerPointsBadge.textContent = t;
+    el.headerPointsBadge.setAttribute('aria-label', 'Poäng: ' + t);
+    lastBadgePoints = totalPoints;
+    if (gained && !skipPop) triggerPointsBadgePop();
+  }
+
+  /** @param {function(): void} [onDone] körs när overlayn stängts (efter animationstiden) */
+  function showCelebration(onDone) {
+    var layer = el.celebrationLayer;
+    if (!layer) {
+      if (typeof onDone === 'function') onDone();
+      return;
+    }
+    if (celebrationTimer !== null) {
+      clearTimeout(celebrationTimer);
+      celebrationTimer = null;
+    }
+    layer.setAttribute('aria-hidden', 'false');
+    layer.classList.remove('celebration-layer--active');
+    void layer.offsetWidth;
+    layer.classList.add('celebration-layer--active');
+    celebrationTimer = window.setTimeout(function () {
+      celebrationTimer = null;
+      layer.classList.remove('celebration-layer--active');
+      layer.setAttribute('aria-hidden', 'true');
+      if (typeof onDone === 'function') onDone();
+    }, 2600);
   }
 
   function applyGrade(state, gradeName) {
@@ -192,7 +267,6 @@
     var dueNow = countDueNow(cards, Date.now());
     el.statsTotal.textContent = total ? String(total) : '0';
     el.statsDue.textContent = String(dueNow);
-    if (el.headerDueBadge) el.headerDueBadge.textContent = String(dueNow);
     if (el.ctaDueNum) el.ctaDueNum.textContent = String(dueNow);
     if (el.studyProgressBar) {
       if (total) {
@@ -243,8 +317,23 @@
     if (!currentCard) return;
     var st = stateById[currentCard.id] || defaultState();
     stateById[currentCard.id] = applyGrade(st, gradeName);
+
+    var bonusPointsPendingBadgePop = false;
+    if (gradeName === 'knew') {
+      towardBonus++;
+      if (towardBonus >= 5) {
+        towardBonus = 0;
+        totalPoints += 5;
+        bonusPointsPendingBadgePop = true;
+        showCelebration(function () {
+          triggerPointsBadgePop();
+        });
+      }
+    }
+
     saveStorage();
     updateStats();
+    updatePointsBadge(bonusPointsPendingBadgePop ? { skipPop: true } : undefined);
     setFeedback(false, '');
     renderCard(pickNextCard());
   }
