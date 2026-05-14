@@ -1,70 +1,6 @@
 <!-- these are currently not used, kept for reference untill app is more finished -->
+
 # Kapitel 1 – Hej
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Hej (informellt)"
-  back: "¡Hola!"
-  prompt: "Hej (informellt)"
-  options:
-    - "la chica"
-    - "¡Hola!"
-    - "los peces"
-    - "uve"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Hur är det?"
-  back: "¿Qué tal?"
-  prompt: "¿Qué tal?"
-  options:
-    - "apelsin"
-    - "häst"
-    - "Hur är det?"
-    - "jag tycker inte om"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "bra"
-  back: "bien"
-  prompt: "bra"
-  options:
-    - "hasta pronto"
-    - "África"
-    - "bien"
-    - "diecisiete"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Och du?"
-  back: "¿Y tú?"
-  prompt: "Och du?"
-  options:
-    - "el fútbol"
-    - "¿Y tú?"
-    - "la selva"
-    - "grazas"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "hej då (informellt)"
-  back: "chao"
-  prompt: "hej då (informellt)"
-  options:
-    - "Creo que ya tenemos …"
-    - "hasta pronto"
-    - "chao"
-    - "tengo trece años"
-  correct: 2
 
 - type: mc
   direction: es_sv
@@ -77,32 +13,6 @@
     - "goda (om mat)"
     - "god morgon"
     - "Har han/hon syskon?"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "herr"
-  back: "señor"
-  prompt: "herr"
-  options:
-    - "Buenos días"
-    - "sí"
-    - "veintiuno"
-    - "señor"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "tack"
-  back: "gracias"
-  prompt: "tack"
-  options:
-    - "la montaña"
-    - "doce"
-    - "gracias"
-    - "hasta luego"
   correct: 2
 
 - type: mc
@@ -120,32 +30,6 @@
 
 - type: mc
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "hej då (adjö)"
-  back: "adiós"
-  prompt: "hej då (adjö)"
-  options:
-    - "adiós"
-    - "eres"
-    - "la montaña"
-    - "eskerrik asko"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "god eftermiddag"
-  back: "Buenas tardes"
-  prompt: "Buenas tardes"
-  options:
-    - "också"
-    - "från"
-    - "god eftermiddag"
-    - "14"
-  correct: 2
-
-- type: mc
-  direction: sv_es
   task: "Välj rätt spanska"
   front: "fru"
   back: "señora"
@@ -157,44 +41,19 @@
     - "el flamenco"
   correct: 0
 
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "Hur mår du?"
-  back: "¿Cómo estás?"
-  prompt: "Hur mår du?"
-  options:
-    - "veintiocho"
-    - "¿Cómo estás?"
-    - "nueve"
-    - "la selva"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "sådär"
-  back: "regular"
-  prompt: "sådär"
-  options:
-    - "regular"
-    - "los platos típicos"
-    - "el fuego"
-    - "nueve"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "vi ses snart"
-  back: "hasta pronto"
-  prompt: "vi ses snart"
-  options:
-    - "hasta luego"
-    - "veintitrés"
-    - "hasta pronto"
-    - "uve doble"
-  correct: 2
+  task: "Para ihop orden"
+  left:
+    - "Hej (informellt)"
+    - "bra"
+    - "Och du?"
+    - "hej då (informellt)"
+  right:
+    - "¡Hola!"
+    - "bien"
+    - "¿Y tú?"
+    - "chao"
 
 - type: mc
   direction: es_sv
@@ -222,18 +81,19 @@
     - "god kväll / god natt"
   correct: 3
 
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "dåligt"
-  back: "mal"
-  prompt: "dåligt"
-  options:
-    - "mal"
-    - "veintiséis"
-    - "¿Cómo es …? / ¿Cómo es tu familia?"
-    - "rosa"
-  correct: 0
+  task: "Para ihop orden"
+  left:
+    - "herr"
+    - "tack"
+    - "hej då (adjö)"
+    - "god eftermiddag"
+  right:
+    - "señor"
+    - "gracias"
+    - "adiós"
+    - "Buenas tardes"
 
 - type: mc
   direction: sv_es
@@ -247,6 +107,33 @@
     - "los habitantes"
     - "pobrecito"
   correct: 3
+
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "¿Qué tal?"
+  answer: "Hur är det?"
+  pool:
+    - "Hur"
+    - "är"
+    - "det?"
+    - "tack"
+    - "herr"
+    - "vi"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "Hur mår du?"
+    - "sådär"
+    - "vi ses snart"
+    - "dåligt"
+  right:
+    - "¿Cómo estás?"
+    - "regular"
+    - "hasta pronto"
+    - "mal"
 
 # Kapitel 2 - Presentation och länder
 
@@ -289,31 +176,18 @@
     - "Soy de …"
   correct: 3
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Översätt till svenska"
-  front: "Jag pratar spanska."
-  back: "Hablo español."
   prompt: "Hablo español."
-  options:
-    - "tjugo (20)"
-    - "Jag pratar spanska."
-    - "Vad heter din pappa?"
-    - "cykel"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Jag pratar engelska."
-  back: "Hablo inglés."
-  prompt: "Hablo inglés."
-  options:
-    - "nej"
-    - "Jag pratar engelska."
-    - "bokstavsv namn: W"
-    - "2"
-  correct: 1
+  answer: "Jag pratar spanska."
+  pool:
+    - "Jag"
+    - "pratar"
+    - "spanska."
+    - "Hej!"
+    - "engelska."
+    - "ligger"
 
 - type: mc
   direction: sv_es
@@ -354,20 +228,20 @@
     - "11"
   correct: 1
 
-# Kapitel 4 – Vad heter du?
-
-- type: mc
+- type: assemble
   direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Vad heter du?"
-  back: "¿Cómo te llamas?"
-  prompt: "¿Cómo te llamas?"
-  options:
-    - "Det ligger i Europa."
-    - "med"
-    - "Vad heter du?"
-    - "Jag pratar engelska."
-  correct: 2
+  task: "Översätt till svenska"
+  prompt: "Hablo inglés."
+  answer: "Jag pratar engelska."
+  pool:
+    - "Jag"
+    - "pratar"
+    - "engelska."
+    - "ligger"
+    - "Hej!"
+    - "spanska."
+
+# Kapitel 4 – Vad heter du?
 
 - type: mc
   direction: sv_es
@@ -384,19 +258,6 @@
 
 - type: mc
   direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Varifrån är du?"
-  back: "¿De dónde eres?"
-  prompt: "¿De dónde eres?"
-  options:
-    - "2"
-    - "päron"
-    - "Varifrån är du?"
-    - "1"
-  correct: 2
-
-- type: mc
-  direction: es_sv
   task: "Översätt till svenska"
   front: "Jag är från …"
   back: "Soy de …"
@@ -407,6 +268,19 @@
     - "Jag är från …"
     - "en bror"
   correct: 2
+
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "¿Cómo te llamas?"
+  answer: "Vad heter du?"
+  pool:
+    - "Vad"
+    - "heter"
+    - "du?"
+    - "Varifrån"
+    - "Jag"
+    - "är"
 
 - type: mc
   direction: sv_es
@@ -421,72 +295,20 @@
     - "rojo"
   correct: 1
 
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "¿De dónde eres?"
+  answer: "Varifrån är du?"
+  pool:
+    - "Varifrån"
+    - "är"
+    - "du?"
+    - "från"
+    - "avgångar"
+    - "Jag"
+
 # Kapitel 5 – Familj och husdjur
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "en syster"
-  back: "una hermana"
-  prompt: "una hermana"
-  options:
-    - "en syster"
-    - "Vad heter din pappa?"
-    - "Hej (informellt)"
-    - "Jag tror att vi redan har …"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "en fågel"
-  back: "un pájaro"
-  prompt: "un pájaro"
-  options:
-    - "Vad bra!"
-    - "en fågel"
-    - "bokstaven efter N i spanska alfabetet"
-    - "vi ses snart"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "en hund"
-  back: "un perro"
-  prompt: "en hund"
-  options:
-    - "un perro"
-    - "el Caribe"
-    - "Ñ"
-    - "en"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "en katt"
-  back: "un gato"
-  prompt: "un gato"
-  options:
-    - "god morgon"
-    - "9"
-    - "två bröder (maskulint)"
-    - "en katt"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "ett marsvin"
-  back: "un conejillo de indias"
-  prompt: "ett marsvin"
-  options:
-    - "un conejillo de indias"
-    - "el mono"
-    - "el monopatín"
-    - "veinticinco"
-  correct: 0
 
 - type: mc
   direction: es_sv
@@ -515,58 +337,6 @@
   correct: 1
 
 - type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "en råtta"
-  back: "una rata"
-  prompt: "en råtta"
-  options:
-    - "veintinueve"
-    - "una rata"
-    - "gràcies"
-    - "rojo"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "en bror"
-  back: "un hermano"
-  prompt: "un hermano"
-  options:
-    - "en bror"
-    - "Vad intressant!"
-    - "galiciska"
-    - "tack (på baskiska)"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "husdjur"
-  back: "mascotas"
-  prompt: "mascotas"
-  options:
-    - "husdjur"
-    - "tjugo (20)"
-    - "sjö"
-    - "vi ses snart"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "en pappa"
-  back: "un padre"
-  prompt: "en pappa"
-  options:
-    - "un padre"
-    - "un hijo"
-    - "tu familia"
-    - "regular"
-  correct: 0
-
-- type: mc
   direction: es_sv
   task: "Vad betyder det här?"
   front: "en mamma"
@@ -578,6 +348,20 @@
     - "jaguar"
     - "en mamma"
   correct: 3
+
+- type: assemble
+  direction: sv_es
+  task: "Översätt till spanska"
+  prompt: "ett marsvin"
+  answer: "un conejillo de indias"
+  pool:
+    - "un"
+    - "conejillo"
+    - "de"
+    - "indias"
+    - "Tengo"
+    - "padre"
+    - "perro"
 
 - type: mc
   direction: sv_es
@@ -605,31 +389,33 @@
     - "una rata"
   correct: 0
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "Jag har två barn."
-  back: "Tengo dos hijos."
   prompt: "Tengo dos hijos."
-  options:
-    - "0"
-    - "Jag har två barn."
-    - "Vad?"
-    - "sköldpadda"
-  correct: 1
+  answer: "Jag har två barn."
+  pool:
+    - "Jag"
+    - "har"
+    - "två"
+    - "barn."
+    - "son"
+    - "orm"
+    - "inte"
 
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Jag har inte husdjur."
-  back: "No tengo mascotas."
-  prompt: "No tengo mascotas."
-  options:
-    - "du bor"
-    - "Jag har inte husdjur."
-    - "Det ligger i Europa."
-    - "15"
-  correct: 1
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "en syster"
+    - "en fågel"
+    - "en hund"
+    - "en katt"
+  right:
+    - "una hermana"
+    - "un pájaro"
+    - "un perro"
+    - "un gato"
 
 - type: mc
   direction: es_sv
@@ -644,59 +430,35 @@
     - "1"
   correct: 2
 
-# Kapitel 6 - Färger och djur
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "apa"
-  back: "el mono"
-  prompt: "apa"
-  options:
-    - "el mono"
-    - "la tienda de campaña"
-    - "el Caribe"
-    - "muy"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "katt"
-  back: "el gato"
-  prompt: "katt"
-  options:
-    - "el gato"
-    - "¿Cuál es tu color favorito?"
-    - "mascotas"
-    - "Buenas tardes"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "hund"
-  back: "el perro"
-  prompt: "hund"
-  options:
-    - "no"
-    - "azul"
-    - "Tengo dos hijos."
-    - "el perro"
-  correct: 3
-
-- type: mc
+- type: assemble
   direction: es_sv
-  task: "Översätt till svenska"
-  front: "flamingo"
-  back: "el flamenco"
-  prompt: "el flamenco"
-  options:
-    - "barn (barnen)"
-    - "min"
-    - "Pratar du spanska?"
-    - "flamingo"
-  correct: 3
+  task: "Vad betyder det här?"
+  prompt: "No tengo mascotas."
+  answer: "Jag har inte husdjur."
+  pool:
+    - "Jag"
+    - "har"
+    - "inte"
+    - "husdjur."
+    - "husdjur"
+    - "heter"
+    - "son"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "en råtta"
+    - "en bror"
+    - "husdjur"
+    - "en pappa"
+  right:
+    - "una rata"
+    - "un hermano"
+    - "mascotas"
+    - "un padre"
+
+# Kapitel 6 - Färger och djur
 
 - type: mc
   direction: es_sv
@@ -737,6 +499,20 @@
     - "Jag tror att vi redan har …"
   correct: 1
 
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "¿Cuál es tu color favorito?"
+  answer: "Vilken är din favoritfärg?"
+  pool:
+    - "Vilken"
+    - "är"
+    - "din"
+    - "favoritfärg?"
+    - "favoritfärg"
+    - "Min"
+    - "flamingo"
+
 - type: mc
   direction: es_sv
   task: "Översätt till svenska"
@@ -763,59 +539,35 @@
     - "Min son heter …"
   correct: 0
 
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Vilken är din favoritfärg?"
-  back: "¿Cuál es tu color favorito?"
-  prompt: "¿Cuál es tu color favorito?"
-  options:
-    - "en syster"
-    - "hej då (vi ses sen)"
-    - "Min favoritfärg är röd."
-    - "Vilken är din favoritfärg?"
-  correct: 3
-
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "Min favoritfärg är röd."
-  back: "Mi color favorito es el rojo."
   prompt: "Mi color favorito es el rojo."
-  options:
-    - "ja"
-    - "Min favoritfärg är röd."
-    - "Belize"
-    - "melon"
-  correct: 1
+  answer: "Min favoritfärg är röd."
+  pool:
+    - "Min"
+    - "favoritfärg"
+    - "är"
+    - "röd."
+    - "rosa"
+    - "Vilken"
+    - "brun"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "apa"
+    - "katt"
+    - "hund"
+    - "flamingo"
+  right:
+    - "el mono"
+    - "el gato"
+    - "el perro"
+    - "el flamenco"
 
 # Kapitel 1 – fler ord och platser
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "flicka"
-  back: "la chica"
-  prompt: "la chica"
-  options:
-    - "Han/hon är tjugo år."
-    - "basket"
-    - "och"
-    - "flicka"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "pojke"
-  back: "el chico"
-  prompt: "pojke"
-  options:
-    - "el chico"
-    - "diecisiete"
-    - "el melón"
-    - "¡Bienvenidos al mundo hispánico!"
-  correct: 0
 
 - type: mc
   direction: es_sv
@@ -829,32 +581,6 @@
     - "Min favoritfärg är röd."
     - "Jag går. / Jag tar det."
   correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "cykel"
-  back: "la bicicleta"
-  prompt: "la bicicleta"
-  options:
-    - "Jag har inte husdjur."
-    - "en dotter"
-    - "det är bra / okej"
-    - "cykel"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "skateboard"
-  back: "el monopatín"
-  prompt: "el monopatín"
-  options:
-    - "Det ligger i …"
-    - "7"
-    - "femton (15)"
-    - "skateboard"
-  correct: 3
 
 - type: mc
   direction: sv_es
@@ -881,6 +607,20 @@
     - "jaguar"
     - "frukt"
   correct: 3
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "flicka"
+    - "pojke"
+    - "cykel"
+    - "skateboard"
+  right:
+    - "la chica"
+    - "el chico"
+    - "la bicicleta"
+    - "el monopatín"
 
 - type: mc
   direction: sv_es
@@ -923,18 +663,46 @@
 
 # Kapitel 2 – Den spansktalande världen
 
-- type: mc
+- type: assemble
   direction: sv_es
   task: "Översätt till spanska"
-  front: "Välkommen till den spansktalande världen!"
-  back: "¡Bienvenidos al mundo hispánico!"
   prompt: "Välkommen till den spansktalande världen!"
-  options:
-    - "¿Tiene hermanos?"
-    - "está bien"
-    - "seis"
-    - "¡Bienvenidos al mundo hispánico!"
-  correct: 3
+  answer: "¡Bienvenidos al mundo hispánico!"
+  pool:
+    - "¡Bienvenidos"
+    - "al"
+    - "mundo"
+    - "hispánico!"
+    - "Sur"
+    - "México?"
+    - "Está"
+
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "¿Dónde está Guinea Ecuatorial?"
+  answer: "Var ligger Ekvatorialguinea?"
+  pool:
+    - "Var"
+    - "ligger"
+    - "Ekvatorialguinea?"
+    - "jag"
+    - "Den"
+    - "Det"
+
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "Está en África."
+  answer: "Den ligger i Afrika."
+  pool:
+    - "Den"
+    - "ligger"
+    - "i"
+    - "Afrika."
+    - "jag"
+    - "Europa."
+    - "Ekvatorialguinea?"
 
 - type: mc
   direction: es_sv
@@ -949,57 +717,18 @@
     - "träd"
   correct: 1
 
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jag är (identitet/ursprung)"
-  back: "soy"
-  prompt: "jag är (identitet/ursprung)"
-  options:
-    - "te llamas"
-    - "soy"
-    - "¡Qué interesante!"
-    - "África"
-  correct: 1
-
-- type: mc
+- type: assemble
   direction: es_sv
-  task: "Översätt till svenska"
-  front: "från"
-  back: "de"
-  prompt: "de"
-  options:
-    - "bokstavsv namn: V"
-    - "trettio (30)"
-    - "kafé (lokal)"
+  task: "Vad betyder det här?"
+  prompt: "¿Dónde está España?"
+  answer: "Var ligger Spanien?"
+  pool:
+    - "Var"
+    - "ligger"
+    - "Spanien?"
+    - "också"
     - "från"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "och"
-  back: "y"
-  prompt: "och"
-  options:
-    - "una hermana"
-    - "doce"
-    - "ricas"
-    - "y"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jag"
-  back: "yo"
-  prompt: "jag"
-  options:
-    - "yo"
-    - "Mi hijo se llama …"
-    - "la bicicleta"
-    - "veinticinco"
-  correct: 0
+    - "Karibien"
 
 - type: mc
   direction: sv_es
@@ -1014,6 +743,20 @@
     - "muy"
   correct: 0
 
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "Está en Europa."
+  answer: "Det ligger i Europa."
+  pool:
+    - "Det"
+    - "ligger"
+    - "i"
+    - "Europa."
+    - "Afrika"
+    - "Nordamerika"
+    - "Nordamerika."
+
 - type: mc
   direction: sv_es
   task: "Välj rätt spanska"
@@ -1027,148 +770,18 @@
     - "¿Dónde está …?"
   correct: 2
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "Var ligger Ekvatorialguinea?"
-  back: "¿Dónde está Guinea Ecuatorial?"
-  prompt: "¿Dónde está Guinea Ecuatorial?"
-  options:
-    - "Vad intressant!"
-    - "Var ligger Ekvatorialguinea?"
-    - "fru"
-    - "jag"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Den ligger i Afrika."
-  back: "Está en África."
-  prompt: "Está en África."
-  options:
-    - "9"
-    - "12"
-    - "Den ligger i Afrika."
-    - "iguana"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Var ligger Spanien?"
-  back: "¿Dónde está España?"
-  prompt: "¿Dónde está España?"
-  options:
-    - "Var ligger Spanien?"
-    - "svenska (språket)"
-    - "Var ligger Mexiko?"
-    - "Hur är läget? (slang)"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Det ligger i Europa."
-  back: "Está en Europa."
-  prompt: "Está en Europa."
-  options:
-    - "röd"
-    - "Det ligger i Europa."
-    - "basket"
-    - "det finns / finns det"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Var ligger Mexiko?"
-  back: "¿Dónde está México?"
   prompt: "¿Dónde está México?"
-  options:
-    - "Var ligger Mexiko?"
-    - "Var ligger Spanien?"
-    - "druvor"
-    - "sexton (16)"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Det ligger i Nordamerika."
-  back: "Está en América del Norte."
-  prompt: "Está en América del Norte."
-  options:
-    - "en stad som heter …"
-    - "goda (om mat)"
-    - "Det ligger i Nordamerika."
-    - "Har han/hon syskon?"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Sverige (landet)"
-  back: "Suecia"
-  prompt: "Suecia"
-  options:
-    - "5"
-    - "grön"
-    - "Jag kommer från …"
-    - "Sverige (landet)"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Nordamerika (region)"
-  back: "América del Norte"
-  prompt: "Nordamerika (region)"
-  options:
-    - "América del Norte"
-    - "gracias"
-    - "el árbol"
-    - "está"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Centralamerika"
-  back: "América Central"
-  prompt: "América Central"
-  options:
-    - "Min son heter …"
-    - "flicka"
-    - "Centralamerika"
-    - "bokstavsv namn: J"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Karibien"
-  back: "el Caribe"
-  prompt: "el Caribe"
-  options:
-    - "goda (om mat)"
-    - "Det ligger i Europa."
-    - "Karibien"
-    - "Det ligger i Nordamerika."
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Sydamerika"
-  back: "América del Sur"
-  prompt: "América del Sur"
-  options:
-    - "päron"
-    - "Sydamerika"
-    - "Min favoritfärg är röd."
-    - "Jag går. / Jag tar det."
-  correct: 1
+  answer: "Var ligger Mexiko?"
+  pool:
+    - "Var"
+    - "ligger"
+    - "Mexiko?"
+    - "i"
+    - "spansktalande"
+    - "från"
 
 - type: mc
   direction: es_sv
@@ -1183,6 +796,34 @@
     - "Afrika"
   correct: 3
 
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "Está en América del Norte."
+  answer: "Det ligger i Nordamerika."
+  pool:
+    - "Det"
+    - "ligger"
+    - "i"
+    - "Nordamerika."
+    - "katalanska"
+    - "spansktalande"
+    - "Centralamerika"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "jag är (identitet/ursprung)"
+    - "från"
+    - "och"
+    - "jag"
+  right:
+    - "soy"
+    - "de"
+    - "y"
+    - "yo"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -1196,59 +837,34 @@
     - "Europa"
   correct: 3
 
-# Kapitel 3 – Jag bor och ålder
-
-- type: mc
+- type: assemble
   direction: sv_es
   task: "Översätt till spanska"
-  front: "jag bor"
-  back: "vivo"
-  prompt: "jag bor"
-  options:
-    - "vivo"
-    - "y"
-    - "hay"
-    - "Belice"
-  correct: 0
+  prompt: "Nordamerika (region)"
+  answer: "América del Norte"
+  pool:
+    - "América"
+    - "del"
+    - "Norte"
+    - "España?"
+    - "Suecia"
+    - "África."
 
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "i (plats)"
-  back: "en"
-  prompt: "i (plats)"
-  options:
-    - "sueco"
-    - "marrón"
-    - "¡Qué bien!"
-    - "en"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "jag är tretton år"
-  back: "tengo trece años"
-  prompt: "tengo trece años"
-  options:
-    - "jag är tretton år"
-    - "Spanien"
-    - "tack (på baskiska)"
-    - "jag tycker om"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "huvudstaden"
-  back: "la capital"
-  prompt: "la capital"
-  options:
+  task: "Para ihop orden"
+  left:
+    - "Sverige (landet)"
+    - "Centralamerika"
+    - "Karibien"
     - "Sydamerika"
-    - "huvudstaden"
-    - "typiska rätter"
-    - "jordgubbe"
-  correct: 1
+  right:
+    - "Suecia"
+    - "América Central"
+    - "el Caribe"
+    - "América del Sur"
+
+# Kapitel 3 – Jag bor och ålder
 
 - type: mc
   direction: es_sv
@@ -1261,19 +877,6 @@
     - "Spanien"
     - "tack (på baskiska)"
     - "jag tycker om"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "fjorton (14)"
-  back: "catorce"
-  prompt: "catorce"
-  options:
-    - "fjorton (14)"
-    - "också"
-    - "blå"
-    - "djungeln"
   correct: 0
 
 - type: mc
@@ -1302,57 +905,19 @@
     - "doce"
   correct: 3
 
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "blomma"
-  back: "la flor"
-  prompt: "la flor"
-  options:
-    - "blomma"
-    - "5"
-    - "ursäkta / förlåt"
-    - "katt"
-  correct: 0
-
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "träd"
-  back: "el árbol"
-  prompt: "träd"
-  options:
-    - "nueve"
-    - "el árbol"
-    - "cero"
-    - "Hablo español."
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "läger-tält"
-  back: "la tienda de campaña"
-  prompt: "la tienda de campaña"
-  options:
-    - "huvudstad i Spanien"
-    - "läger-tält"
-    - "bokstaven efter N i spanska alfabetet"
-    - "Vad blir det? / Hur mycket blir det?"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "sjö"
-  back: "el lago"
-  prompt: "sjö"
-  options:
-    - "el lago"
-    - "veintiséis"
-    - "Está en Europa."
-    - "tres"
-  correct: 0
+  task: "Para ihop orden"
+  left:
+    - "jag bor"
+    - "i (plats)"
+    - "huvudstaden"
+    - "fjorton (14)"
+  right:
+    - "vivo"
+    - "en"
+    - "la capital"
+    - "catorce"
 
 - type: mc
   direction: sv_es
@@ -1393,59 +958,35 @@
     - "la manzana"
   correct: 2
 
-# Kapitel 3 – Tal 0–15
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "0"
-  back: "cero"
-  prompt: "cero"
-  options:
-    - "0"
-    - "djungeln"
-    - "Var ligger Spanien?"
-    - "tolv (12)"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "1"
-  back: "uno"
-  prompt: "uno"
-  options:
-    - "två bröder (maskulint)"
-    - "spanska (även: kastilianska)"
-    - "Europa"
-    - "1"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "2"
-  back: "dos"
-  prompt: "dos"
-  options:
-    - "2"
-    - "galiciska"
-    - "frukt"
-    - "där"
-  correct: 0
-
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "3"
-  back: "tres"
-  prompt: "tres"
-  options:
-    - "3"
-    - "Var ligger Spanien?"
-    - "druvor"
-    - "sexton (16)"
-  correct: 0
+  prompt: "tengo trece años"
+  answer: "jag är tretton år"
+  pool:
+    - "jag"
+    - "är"
+    - "tretton"
+    - "år"
+    - "läger-tält"
+    - "stad"
+    - "en"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "blomma"
+    - "träd"
+    - "läger-tält"
+    - "sjö"
+  right:
+    - "la flor"
+    - "el árbol"
+    - "la tienda de campaña"
+    - "el lago"
+
+# Kapitel 3 – Tal 0–15
 
 - type: mc
   direction: sv_es
@@ -1462,58 +1003,6 @@
 
 - type: mc
   direction: es_sv
-  task: "Översätt till svenska"
-  front: "5"
-  back: "cinco"
-  prompt: "cinco"
-  options:
-    - "nej"
-    - "5"
-    - "bokstavsv namn: W"
-    - "1"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "6"
-  back: "seis"
-  prompt: "6"
-  options:
-    - "¿Tiene hermanos?"
-    - "está bien"
-    - "cinco"
-    - "seis"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "7"
-  back: "siete"
-  prompt: "siete"
-  options:
-    - "7"
-    - "med"
-    - "inget mer"
-    - "Jag kommer från …"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "8"
-  back: "ocho"
-  prompt: "8"
-  options:
-    - "ocho"
-    - "veintiséis"
-    - "¿Cómo es …? / ¿Cómo es tu familia?"
-    - "marrón"
-  correct: 0
-
-- type: mc
-  direction: es_sv
   task: "Vad betyder det här?"
   front: "9"
   back: "nueve"
@@ -1525,57 +1014,19 @@
     - "9"
   correct: 3
 
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "10"
-  back: "diez"
-  prompt: "10"
-  options:
-    - "veinticuatro"
-    - "el hámster"
-    - "la selva"
-    - "diez"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "11"
-  back: "once"
-  prompt: "once"
-  options:
-    - "11"
-    - "katt"
-    - "Vad heter du?"
-    - "husdjur"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "12"
-  back: "doce"
-  prompt: "doce"
-  options:
-    - "nej"
-    - "12"
-    - "bokstavsv namn: W"
+  task: "Para ihop orden"
+  left:
+    - "0"
     - "1"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "13"
-  back: "trece"
-  prompt: "trece"
-  options:
-    - "Nej, jag pratar inte spanska."
-    - "Vad intressant!"
-    - "flicka"
-    - "13"
-  correct: 3
+    - "2"
+    - "3"
+  right:
+    - "cero"
+    - "uno"
+    - "dos"
+    - "tres"
 
 - type: mc
   direction: sv_es
@@ -1590,6 +1041,20 @@
     - "el supermercado"
   correct: 2
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "5"
+    - "6"
+    - "7"
+    - "8"
+  right:
+    - "cinco"
+    - "seis"
+    - "siete"
+    - "ocho"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -1603,72 +1068,21 @@
     - "15"
   correct: 3
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "10"
+    - "11"
+    - "12"
+    - "13"
+  right:
+    - "diez"
+    - "once"
+    - "doce"
+    - "trece"
+
 # Kapitel 4 – På flygplatsen (frågor och svar)
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "Pratar du spanska?"
-  back: "¿Hablas español?"
-  prompt: "Pratar du spanska?"
-  options:
-    - "¿Hablas español?"
-    - "cero"
-    - "Voy yo."
-    - "Creo que ya tenemos …"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "ja"
-  back: "sí"
-  prompt: "sí"
-  options:
-    - "spanska (även: kastilianska)"
-    - "björn"
-    - "tack (på baskiska)"
-    - "ja"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "nej"
-  back: "no"
-  prompt: "no"
-  options:
-    - "djur"
-    - "nej"
-    - "björn"
-    - "clementin"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "du"
-  back: "tú"
-  prompt: "du"
-  options:
-    - "una hija"
-    - "tienes"
-    - "un pájaro"
-    - "tú"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Nej, jag pratar inte spanska."
-  back: "No, no hablo español."
-  prompt: "No, no hablo español."
-  options:
-    - "tjugonio (29)"
-    - "hej då (adjö)"
-    - "Vad?"
-    - "Nej, jag pratar inte spanska."
-  correct: 3
 
 - type: mc
   direction: es_sv
@@ -1697,32 +1111,6 @@
   correct: 2
 
 - type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Var bor du?"
-  back: "¿Dónde vives?"
-  prompt: "¿Dónde vives?"
-  options:
-    - "min"
-    - "Vilken är din favoritfärg?"
-    - "Var bor du?"
-    - "en råtta"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Hur gammal är du?"
-  back: "¿Cuántos años tienes?"
-  prompt: "¿Cuántos años tienes?"
-  options:
-    - "Hur gammal är du?"
-    - "Vad?"
-    - "brun"
-    - "ris"
-  correct: 0
-
-- type: mc
   direction: sv_es
   task: "Översätt till spanska"
   front: "min mamma"
@@ -1734,6 +1122,21 @@
     - "la montaña"
     - "mi madre"
   correct: 3
+
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "No, no hablo español."
+  answer: "Nej, jag pratar inte spanska."
+  pool:
+    - "Nej,"
+    - "jag"
+    - "pratar"
+    - "inte"
+    - "spanska."
+    - "är"
+    - "du"
+    - "men"
 
 - type: mc
   direction: es_sv
@@ -1761,6 +1164,19 @@
     - "Kan du repetera?"
   correct: 1
 
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "¿Dónde vives?"
+  answer: "Var bor du?"
+  pool:
+    - "Var"
+    - "bor"
+    - "du?"
+    - "Hur"
+    - "nej"
+    - "du"
+
 - type: mc
   direction: sv_es
   task: "Översätt till spanska"
@@ -1774,59 +1190,35 @@
     - "¡Buen viaje!"
   correct: 3
 
-# Kapitel 4 – Verb jag / du
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jag bor (vivir)"
-  back: "vivo"
-  prompt: "jag bor (vivir)"
-  options:
-    - "vivo"
-    - "nada más"
-    - "nueve"
-    - "¿Cuál es tu color favorito?"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "du bor"
-  back: "vives"
-  prompt: "du bor"
-  options:
-    - "vives"
-    - "diecisiete"
-    - "el melón"
-    - "el café"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "du heter (llamarse)"
-  back: "te llamas"
-  prompt: "du heter (llamarse)"
-  options:
-    - "el arroz"
-    - "señora"
-    - "los habitantes"
-    - "te llamas"
-  correct: 3
-
-- type: mc
+- type: assemble
   direction: es_sv
-  task: "Översätt till svenska"
-  front: "du pratar"
-  back: "hablas"
-  prompt: "hablas"
-  options:
+  task: "Vad betyder det här?"
+  prompt: "¿Cuántos años tienes?"
+  answer: "Hur gammal är du?"
+  pool:
+    - "Hur"
+    - "gammal"
+    - "är"
+    - "du?"
+    - "men"
     - "min"
-    - "Vilken är din favoritfärg?"
-    - "du pratar"
-    - "en råtta"
-  correct: 2
+    - "där"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "Pratar du spanska?"
+    - "ja"
+    - "nej"
+    - "du"
+  right:
+    - "¿Hablas español?"
+    - "sí"
+    - "no"
+    - "tú"
+
+# Kapitel 4 – Verb jag / du
 
 - type: mc
   direction: es_sv
@@ -1854,85 +1246,63 @@
     - "du har / du är … år (tener)"
   correct: 3
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "jag bor (vivir)"
+    - "du bor"
+    - "du heter (llamarse)"
+    - "du pratar"
+  right:
+    - "vivo"
+    - "vives"
+    - "te llamas"
+    - "hablas"
+
 # Kapitel 5 – Alfabet och uttal
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Översätt till svenska"
-  front: "bokstaven efter N i spanska alfabetet"
-  back: "Ñ"
   prompt: "Ñ"
-  options:
-    - "Det ligger i …"
-    - "6"
-    - "fjorton (14)"
-    - "bokstaven efter N i spanska alfabetet"
-  correct: 3
+  answer: "bokstaven efter N i spanska alfabetet"
+  pool:
+    - "bokstaven"
+    - "efter"
+    - "N"
+    - "i"
+    - "spanska"
+    - "alfabetet"
+    - "inte"
+    - "tycker"
+    - "jag"
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Vad betyder det här?"
-  front: "bokstavsv namn: V"
-  back: "uve"
   prompt: "uve"
-  options:
-    - "hej (kortare hälsning)"
-    - "bokstavsv namn: V"
-    - "moped / scooter"
-    - "0"
-  correct: 1
+  answer: "bokstavsv namn: V"
+  pool:
+    - "bokstavsv"
+    - "namn:"
+    - "V"
+    - "inte"
+    - "alfabetet"
+    - "efter"
 
-- type: mc
+- type: assemble
   direction: es_sv
   task: "Översätt till svenska"
-  front: "bokstavsv namn: W"
-  back: "uve doble"
   prompt: "uve doble"
-  options:
-    - "med"
-    - "bokstavsv namn: W"
-    - "tack"
-    - "mataffär / stormarknad"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "bokstavsv namn: J"
-  back: "jota"
-  prompt: "jota"
-  options:
-    - "flaggans färger (Spanien): gul"
-    - "god eftermiddag"
-    - "fjorton (14)"
-    - "bokstavsv namn: J"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "jag tycker om"
-  back: "a mí me gusta"
-  prompt: "a mí me gusta"
-  options:
-    - "stackare"
-    - "13"
-    - "häst"
-    - "jag tycker om"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jag tycker inte om"
-  back: "no me gusta"
-  prompt: "jag tycker inte om"
-  options:
-    - "no me gusta"
-    - "Salidas"
-    - "una rata"
-    - "el monopatín"
-  correct: 0
+  answer: "bokstavsv namn: W"
+  pool:
+    - "bokstavsv"
+    - "namn:"
+    - "W"
+    - "J"
+    - "N"
+    - "efter"
 
 - type: mc
   direction: sv_es
@@ -1947,20 +1317,46 @@
     - "vivo"
   correct: 0
 
-# Kapitel 5 – Spanien (geografi och språk)
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "jota"
+  answer: "bokstavsv namn: J"
+  pool:
+    - "bokstavsv"
+    - "namn:"
+    - "J"
+    - "spanska"
+    - "om"
+    - "inte"
 
-- type: mc
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "a mí me gusta"
+  answer: "jag tycker om"
+  pool:
+    - "jag"
+    - "tycker"
+    - "om"
+    - "Spanien"
+    - "alfabetet"
+    - "i"
+
+- type: assemble
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "huvudstad i Spanien"
-  back: "Madrid"
-  prompt: "huvudstad i Spanien"
-  options:
-    - "una hermana"
-    - "treinta"
-    - "azul"
-    - "Madrid"
-  correct: 3
+  task: "Översätt till spanska"
+  prompt: "jag tycker inte om"
+  answer: "no me gusta"
+  pool:
+    - "no"
+    - "me"
+    - "gusta"
+    - "España"
+    - "doble"
+    - "mí"
+
+# Kapitel 5 – Spanien (geografi och språk)
 
 - type: mc
   direction: es_sv
@@ -1974,45 +1370,6 @@
     - "Nordamerika (region)"
     - "Sydamerika"
   correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "flaggans färger (Spanien): gul"
-  back: "amarillo"
-  prompt: "flaggans färger (Spanien): gul"
-  options:
-    - "un hijo"
-    - "vive"
-    - "amarillo"
-    - "diecinueve"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "baskiska"
-  back: "el euskera / el vasco"
-  prompt: "el euskera / el vasco"
-  options:
-    - "Den ligger i Afrika."
-    - "baskiska"
-    - "två bröder (maskulint)"
-    - "nitton (19)"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "galiciska"
-  back: "el gallego"
-  prompt: "el gallego"
-  options:
-    - "galiciska"
-    - "jag tycker inte om"
-    - "tack (på baskiska)"
-    - "bokstavsv namn: J"
-  correct: 0
 
 - type: mc
   direction: es_sv
@@ -2039,6 +1396,20 @@
     - "¿Puedes repetir?"
     - "hasta pronto"
   correct: 1
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "huvudstad i Spanien"
+    - "flaggans färger (Spanien): gul"
+    - "baskiska"
+    - "galiciska"
+  right:
+    - "Madrid"
+    - "amarillo"
+    - "el euskera / el vasco"
+    - "el gallego"
 
 - type: mc
   direction: es_sv
@@ -2094,6 +1465,19 @@
 
 # Kapitel 6 – Familj, fler fraser
 
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "¿Tienes mascotas?"
+  answer: "Har du husdjur?"
+  pool:
+    - "Har"
+    - "du"
+    - "husdjur?"
+    - "kanin"
+    - "mamma?"
+    - "en"
+
 - type: mc
   direction: sv_es
   task: "Översätt till spanska"
@@ -2106,58 +1490,6 @@
     - "¿Cómo es …? / ¿Cómo es tu familia?"
     - "mal"
   correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "din familj"
-  back: "tu familia"
-  prompt: "tu familia"
-  options:
-    - "din familj"
-    - "Vad heter din pappa?"
-    - "Hej (informellt)"
-    - "Jag tror att vi redan har …"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jag har"
-  back: "tengo"
-  prompt: "jag har"
-  options:
-    - "un conejillo de indias"
-    - "la guía"
-    - "tengo"
-    - "¿Cómo es …? / ¿Cómo es tu familia?"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "barn (barnen)"
-  back: "los hijos"
-  prompt: "los hijos"
-  options:
-    - "snälla / tack (vid beställning)"
-    - "avgångar (flygplats)"
-    - "namn"
-    - "barn (barnen)"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "min"
-  back: "mi"
-  prompt: "min"
-  options:
-    - "veinticuatro"
-    - "el hámster"
-    - "la selva"
-    - "mi"
-  correct: 3
 
 - type: mc
   direction: sv_es
@@ -2185,18 +1517,20 @@
     - "Jag pratar spanska."
   correct: 0
 
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Har du husdjur?"
-  back: "¿Tienes mascotas?"
-  prompt: "¿Tienes mascotas?"
-  options:
-    - "Har du husdjur?"
-    - "också"
-    - "blå"
-    - "djungeln"
-  correct: 0
+- type: assemble
+  direction: sv_es
+  task: "Översätt till spanska"
+  prompt: "Vad heter din mamma?"
+  answer: "¿Cómo se llama tu madre?"
+  pool:
+    - "¿Cómo"
+    - "se"
+    - "llama"
+    - "tu"
+    - "madre?"
+    - "los"
+    - "madres"
+    - "hijos"
 
 - type: mc
   direction: sv_es
@@ -2209,84 +1543,6 @@
     - "el hámster"
     - "la selva"
     - "un conejo"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Vad heter din mamma?"
-  back: "¿Cómo se llama tu madre?"
-  prompt: "Vad heter din mamma?"
-  options:
-    - "¿Cómo se llama tu madre?"
-    - "el mercado"
-    - "pobrecito"
-    - "Buenos días"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Vad heter din pappa?"
-  back: "¿Cómo se llama tu padre?"
-  prompt: "¿Cómo se llama tu padre?"
-  options:
-    - "Vad heter din pappa?"
-    - "flamingo"
-    - "Grön är min favoritfärg."
-    - "Vilken är din favoritfärg?"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "namn"
-  back: "el nombre"
-  prompt: "el nombre"
-  options:
-    - "typiska rätter"
-    - "Hur är läget? (slang)"
-    - "ursäkta / förlåt"
-    - "namn"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "häst"
-  back: "el caballo"
-  prompt: "häst"
-  options:
-    - "los habitantes"
-    - "en"
-    - "el caballo"
-    - "soy"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "fisk(ar)"
-  back: "los peces"
-  prompt: "los peces"
-  options:
-    - "fisk(ar)"
-    - "Jag pratar engelska."
-    - "Jag har två barn."
-    - "mat / måltid"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "hamster"
-  back: "el hámster"
-  prompt: "el hámster"
-  options:
-    - "jag har"
-    - "en orm"
-    - "avgångar (flygplats)"
-    - "hamster"
   correct: 3
 
 - type: mc
@@ -2315,6 +1571,20 @@
     - "Hablo español."
   correct: 1
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "din familj"
+    - "jag har"
+    - "barn (barnen)"
+    - "min"
+  right:
+    - "tu familia"
+    - "tengo"
+    - "los hijos"
+    - "mi"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -2328,72 +1598,35 @@
     - "Den ligger i Afrika."
   correct: 0
 
+- type: assemble
+  direction: es_sv
+  task: "Vad betyder det här?"
+  prompt: "¿Cómo se llama tu padre?"
+  answer: "Vad heter din pappa?"
+  pool:
+    - "Vad"
+    - "heter"
+    - "din"
+    - "pappa?"
+    - "häst"
+    - "hamster"
+    - "två"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "namn"
+    - "häst"
+    - "fisk(ar)"
+    - "hamster"
+  right:
+    - "el nombre"
+    - "el caballo"
+    - "los peces"
+    - "el hámster"
+
 # Kapitel 7 – I nationalparken
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "nationalparken"
-  back: "el parque nacional"
-  prompt: "nationalparken"
-  options:
-    - "el parque nacional"
-    - "el árbol"
-    - "América Central"
-    - "muy"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "guiden (kvinnlig)"
-  back: "la guía"
-  prompt: "la guía"
-  options:
-    - "husdjur"
-    - "guiden (kvinnlig)"
-    - "din familj"
-    - "blå"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "här"
-  back: "aquí"
-  prompt: "aquí"
-  options:
-    - "ja"
-    - "här"
-    - "bokstavsv namn: V"
-    - "1"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "det finns / finns det"
-  back: "hay"
-  prompt: "det finns / finns det"
-  options:
-    - "hay"
-    - "una hija"
-    - "¿Cómo es …? / ¿Cómo es tu familia?"
-    - "regular"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "många"
-  back: "muchos"
-  prompt: "muchos"
-  options:
-    - "två mödrar"
-    - "och"
-    - "god morgon"
-    - "många"
-  correct: 3
 
 - type: mc
   direction: es_sv
@@ -2434,6 +1667,19 @@
     - "¿Dónde está …?"
   correct: 2
 
+- type: assemble
+  direction: sv_es
+  task: "Välj rätt spanska"
+  prompt: "nationalparken"
+  answer: "el parque nacional"
+  pool:
+    - "el"
+    - "parque"
+    - "nacional"
+    - "hay"
+    - "muchos"
+    - "tapir"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -2449,58 +1695,6 @@
 
 - type: mc
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "jaguar"
-  back: "el jaguar"
-  prompt: "jaguar"
-  options:
-    - "tres"
-    - "el jaguar"
-    - "la fresa"
-    - "¡Bienvenidos al mundo hispánico!"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "tapir"
-  back: "el tapir"
-  prompt: "tapir"
-  options:
-    - "el fuego"
-    - "negro"
-    - "veintiséis"
-    - "el tapir"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "djungeln"
-  back: "la selva"
-  prompt: "la selva"
-  options:
-    - "hon är / den är (här: finns)"
-    - "djungeln"
-    - "Kan du repetera?"
-    - "Vad?"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "(han/hon) bor"
-  back: "vive"
-  prompt: "vive"
-  options:
-    - "iguana"
-    - "en mamma"
-    - "jag tycker om"
-    - "(han/hon) bor"
-  correct: 3
-
-- type: mc
-  direction: sv_es
   task: "Välj rätt spanska"
   front: "ett kattdjur"
   back: "un felino"
@@ -2510,19 +1704,6 @@
     - "la piña"
     - "un felino"
     - "me llamo"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Han/hon är tjugo år."
-  back: "Tiene veinte años."
-  prompt: "Han/hon är tjugo år."
-  options:
-    - "el chico"
-    - "veinte"
-    - "Tiene veinte años."
-    - "rosa"
   correct: 2
 
 - type: mc
@@ -2537,6 +1718,20 @@
     - "10"
     - "djungeln"
   correct: 0
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "guiden (kvinnlig)"
+    - "här"
+    - "det finns / finns det"
+    - "många"
+  right:
+    - "la guía"
+    - "aquí"
+    - "hay"
+    - "muchos"
 
 - type: mc
   direction: sv_es
@@ -2577,57 +1772,18 @@
     - "hasta pronto"
   correct: 1
 
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "nitton (19)"
-  back: "diecinueve"
-  prompt: "diecinueve"
-  options:
-    - "tjugo (20)"
-    - "nitton (19)"
-    - "Vad heter din mamma?"
-    - "moped / scooter"
-  correct: 1
-
-- type: mc
+- type: assemble
   direction: sv_es
   task: "Översätt till spanska"
-  front: "tjugo (20)"
-  back: "veinte"
-  prompt: "tjugo (20)"
-  options:
-    - "Tiene veinte años."
-    - "está bien"
-    - "cinco"
+  prompt: "Han/hon är tjugo år."
+  answer: "Tiene veinte años."
+  pool:
+    - "Tiene"
     - "veinte"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "tjugoett (21)"
-  back: "veintiuno"
-  prompt: "tjugoett (21)"
-  options:
-    - "veintiuno"
-    - "Salidas"
-    - "una rata"
-    - "el monopatín"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "tjugotvå (22)"
-  back: "veintidós"
-  prompt: "veintidós"
-  options:
-    - "4"
-    - "bra"
-    - "12"
-    - "tjugotvå (22)"
-  correct: 3
+    - "años."
+    - "lobo"
+    - "tapir"
+    - "veintidós"
 
 - type: mc
   direction: es_sv
@@ -2668,6 +1824,20 @@
     - "Den ligger i Afrika."
   correct: 0
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "jaguar"
+    - "tapir"
+    - "djungeln"
+    - "(han/hon) bor"
+  right:
+    - "el jaguar"
+    - "el tapir"
+    - "la selva"
+    - "vive"
+
 - type: mc
   direction: es_sv
   task: "Översätt till svenska"
@@ -2679,71 +1849,6 @@
     - "i (plats)"
     - "tjugosex (26)"
     - "5"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "tjugosju (27)"
-  back: "veintisiete"
-  prompt: "tjugosju (27)"
-  options:
-    - "veintisiete"
-    - "por favor"
-    - "la capital"
-    - "tu familia"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "tjugoåtta (28)"
-  back: "veintiocho"
-  prompt: "tjugoåtta (28)"
-  options:
-    - "Buenas noches"
-    - "¿Puedes repetir?"
-    - "veintiocho"
-    - "los mayas"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "tjugonio (29)"
-  back: "veintinueve"
-  prompt: "tjugonio (29)"
-  options:
-    - "veintinueve"
-    - "América Central"
-    - "tienes"
-    - "vivo"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "trettio (30)"
-  back: "treinta"
-  prompt: "treinta"
-  options:
-    - "melon"
-    - "frukt"
-    - "11"
-    - "trettio (30)"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "havssköldpadda"
-  back: "la tortuga del mar"
-  prompt: "havssköldpadda"
-  options:
-    - "el lago"
-    - "quince"
-    - "la tortuga del mar"
-    - "gracias"
   correct: 2
 
 - type: mc
@@ -2772,6 +1877,20 @@
     - "el tapir"
   correct: 1
 
+- type: assemble
+  direction: sv_es
+  task: "Välj rätt spanska"
+  prompt: "havssköldpadda"
+  answer: "la tortuga del mar"
+  pool:
+    - "la"
+    - "tortuga"
+    - "del"
+    - "mar"
+    - "guía"
+    - "nacional"
+    - "aquí"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -2787,19 +1906,6 @@
 
 - type: mc
   direction: es_sv
-  task: "Översätt till svenska"
-  front: "Kan du repetera?"
-  back: "¿Puedes repetir?"
-  prompt: "¿Puedes repetir?"
-  options:
-    - "röd"
-    - "det finns / finns det"
-    - "Kan du repetera?"
-    - "cykel"
-  correct: 2
-
-- type: mc
-  direction: es_sv
   task: "Vad betyder det här?"
   front: "till slut"
   back: "finalmente"
@@ -2810,6 +1916,20 @@
     - "Vad behöver vi?"
     - "till slut"
   correct: 3
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "nitton (19)"
+    - "tjugo (20)"
+    - "tjugoett (21)"
+    - "tjugotvå (22)"
+  right:
+    - "diecinueve"
+    - "veinte"
+    - "veintiuno"
+    - "veintidós"
 
 - type: mc
   direction: sv_es
@@ -2824,59 +1944,62 @@
     - "¡Qué bien!"
   correct: 0
 
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "¿Puedes repetir?"
+  answer: "Kan du repetera?"
+  pool:
+    - "Kan"
+    - "du"
+    - "repetera?"
+    - "ett"
+    - "jaguar"
+    - "tjugotvå"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "tjugosju (27)"
+    - "tjugoåtta (28)"
+    - "tjugonio (29)"
+    - "trettio (30)"
+  right:
+    - "veintisiete"
+    - "veintiocho"
+    - "veintinueve"
+    - "treinta"
+
 # Kapitel 8 – Färger (fler)
 
-- type: mc
+- type: assemble
   direction: es_sv
-  task: "Vad betyder det här?"
-  front: "grön"
-  back: "verde"
-  prompt: "verde"
-  options:
-    - "många"
-    - "grön"
-    - "Vad?"
-    - "clementin"
-  correct: 1
+  task: "Översätt till svenska"
+  prompt: "El verde es mi color favorito."
+  answer: "Grön är min favoritfärg."
+  pool:
+    - "Grön"
+    - "är"
+    - "min"
+    - "favoritfärg."
+    - "du"
+    - "vit,"
+    - "svart"
 
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "blå"
-  back: "azul"
-  prompt: "azul"
-  options:
-    - "päron"
-    - "blå"
-    - "Min favoritfärg är röd."
-    - "Jag går. / Jag tar det."
-  correct: 1
-
-- type: mc
+- type: assemble
   direction: sv_es
   task: "Välj rätt spanska"
-  front: "gul"
-  back: "amarillo"
-  prompt: "gul"
-  options:
-    - "amarillo"
-    - "en"
-    - "en total"
-    - "África"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "vit"
-  back: "blanco"
-  prompt: "blanco"
-  options:
-    - "Trevlig resa!"
-    - "från"
-    - "Vad bra!"
-    - "vit"
-  correct: 3
+  prompt: "Gillar du karate?"
+  answer: "¿Te gusta el karate?"
+  pool:
+    - "¿Te"
+    - "gusta"
+    - "el"
+    - "karate?"
+    - "negro"
+    - "blanco"
+    - "verde"
 
 - type: mc
   direction: es_sv
@@ -2891,85 +2014,38 @@
     - "mat / måltid"
   correct: 0
 
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Grön är min favoritfärg."
-  back: "El verde es mi color favorito."
-  prompt: "El verde es mi color favorito."
-  options:
-    - "okej (vard.)"
-    - "blomma"
-    - "Trevlig resa!"
-    - "Grön är min favoritfärg."
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "Gillar du karate?"
-  back: "¿Te gusta el karate?"
-  prompt: "Gillar du karate?"
-  options:
-    - "por favor"
-    - "Está en Europa."
-    - "¿Te gusta el karate?"
-    - "hablas"
-  correct: 2
-
-- type: mc
+- type: assemble
   direction: sv_es
   task: "Översätt till spanska"
-  front: "Min katt är vit, svart och fin."
-  back: "Mi gato es blanco, negro y bonito."
   prompt: "Min katt är vit, svart och fin."
-  options:
-    - "Creo que ya tenemos …"
-    - "regular"
-    - "Mi gato es blanco, negro y bonito."
-    - "en"
-  correct: 2
+  answer: "Mi gato es blanco, negro y bonito."
+  pool:
+    - "Mi"
+    - "gato"
+    - "es"
+    - "blanco,"
+    - "negro"
+    - "y"
+    - "bonito."
+    - "¿Te"
+    - "color"
+    - "blanco"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "grön"
+    - "blå"
+    - "gul"
+    - "vit"
+  right:
+    - "verde"
+    - "azul"
+    - "amarillo"
+    - "blanco"
 
 # Kapitel 9 – Mexiko (ord ur texten)
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "ett land"
-  back: "un país"
-  prompt: "ett land"
-  options:
-    - "Mi color favorito es el rojo."
-    - "un país"
-    - "el caballo"
-    - "Ñ"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "invånare"
-  back: "los habitantes"
-  prompt: "invånare"
-  options:
-    - "veintisiete"
-    - "los habitantes"
-    - "ocho"
-    - "el tapir"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Välj rätt spanska"
-  front: "Belize"
-  back: "Belice"
-  prompt: "Belize"
-  options:
-    - "Belice"
-    - "un gato"
-    - "¿Dónde está España?"
-    - "el lago"
-  correct: 0
 
 - type: mc
   direction: es_sv
@@ -2983,19 +2059,6 @@
     - "Vad behöver vi?"
     - "mat / måltid"
   correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "typiska rätter"
-  back: "los platos típicos"
-  prompt: "los platos típicos"
-  options:
-    - "typiska rätter"
-    - "Har du husdjur?"
-    - "havssköldpadda"
-    - "Välkommen till den spansktalande världen!"
-  correct: 0
 
 - type: mc
   direction: sv_es
@@ -3023,6 +2086,20 @@
     - "aztekerna"
   correct: 3
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "ett land"
+    - "invånare"
+    - "Belize"
+    - "typiska rätter"
+  right:
+    - "un país"
+    - "los habitantes"
+    - "Belice"
+    - "los platos típicos"
+
 - type: mc
   direction: sv_es
   task: "Översätt till spanska"
@@ -3037,19 +2114,6 @@
   correct: 2
 
 # Kapitel 10 – På marknaden
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "marknaden"
-  back: "el mercado"
-  prompt: "el mercado"
-  options:
-    - "snälla / tack (vid beställning)"
-    - "avgångar (flygplats)"
-    - "Vad heter din pappa?"
-    - "marknaden"
-  correct: 3
 
 - type: mc
   direction: es_sv
@@ -3077,44 +2141,19 @@
     - "Vad blir det? / Hur mycket blir det?"
   correct: 1
 
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "Något mer?"
-  back: "¿Algo más?"
-  prompt: "¿Algo más?"
-  options:
-    - "Något mer?"
-    - "dåligt"
-    - "jag är (identitet/ursprung)"
-    - "Var bor du?"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "billiga"
-  back: "baratas"
-  prompt: "baratas"
-  options:
-    - "basket"
-    - "billiga"
-    - "päron"
-    - "blomma"
-  correct: 1
-
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Översätt till spanska"
-  front: "ett halvt kilo"
-  back: "medio kilo"
-  prompt: "ett halvt kilo"
-  options:
-    - "el arroz"
-    - "señora"
-    - "un país"
+  task: "Para ihop orden"
+  left:
+    - "marknaden"
+    - "Något mer?"
+    - "billiga"
+    - "ett halvt kilo"
+  right:
+    - "el mercado"
+    - "¿Algo más?"
+    - "baratas"
     - "medio kilo"
-  correct: 3
 
 - type: mc
   direction: es_sv
@@ -3131,58 +2170,6 @@
 
 - type: mc
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "det är bra / okej"
-  back: "está bien"
-  prompt: "det är bra / okej"
-  options:
-    - "está bien"
-    - "veinticinco"
-    - "Está en Europa."
-    - "dos"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "Vad blir det? / Hur mycket blir det?"
-  back: "¿Cuánto es?"
-  prompt: "Vad blir det? / Hur mycket blir det?"
-  options:
-    - "veintitrés"
-    - "los peces"
-    - "el tapir"
-    - "¿Cuánto es?"
-  correct: 3
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "totalt"
-  back: "en total"
-  prompt: "totalt"
-  options:
-    - "en total"
-    - "una hija"
-    - "¿Cómo es …? / ¿Cómo es tu familia?"
-    - "regular"
-  correct: 0
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "ett kilo"
-  back: "un kilo"
-  prompt: "ett kilo"
-  options:
-    - "un kilo"
-    - "Ñ"
-    - "No tengo mascotas."
-    - "treinta"
-  correct: 0
-
-- type: mc
-  direction: sv_es
   task: "Översätt till spanska"
   front: "ananas"
   back: "la piña"
@@ -3192,58 +2179,6 @@
     - "diecinueve"
     - "la piña"
     - "rosa"
-  correct: 2
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "druvor"
-  back: "las uvas"
-  prompt: "las uvas"
-  options:
-    - "druvor"
-    - "god eftermiddag"
-    - "Hur är …? / Hur är din familj?"
-    - "fjorton (14)"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "äpple"
-  back: "la manzana"
-  prompt: "la manzana"
-  options:
-    - "Spanien"
-    - "äpple"
-    - "du har / du är … år (tener)"
-    - "det är bra / okej"
-  correct: 1
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "jordgubbe"
-  back: "la fresa"
-  prompt: "jordgubbe"
-  options:
-    - "Buenos días"
-    - "¿Hablas español?"
-    - "veinte"
-    - "la fresa"
-  correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "apelsin"
-  back: "la naranja"
-  prompt: "la naranja"
-  options:
-    - "guiden (kvinnlig)"
-    - "namn"
-    - "apelsin"
-    - "Vad heter du?"
   correct: 2
 
 - type: mc
@@ -3259,57 +2194,19 @@
     - "el limón"
   correct: 3
 
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "melon"
-  back: "el melón"
-  prompt: "melon"
-  options:
-    - "el melón"
-    - "¿Qué onda?"
-    - "con"
-    - "tienes"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "päron"
-  back: "la pera"
-  prompt: "la pera"
-  options:
-    - "päron"
-    - "katt"
-    - "Vad heter du?"
-    - "husdjur"
-  correct: 0
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "banan"
-  back: "el plátano"
-  prompt: "el plátano"
-  options:
-    - "Har du husdjur?"
-    - "men"
-    - "banan"
-    - "Vad?"
-  correct: 2
-
-- type: mc
-  direction: sv_es
-  task: "Översätt till spanska"
-  front: "plommon"
-  back: "la ciruela"
-  prompt: "plommon"
-  options:
-    - "la ciruela"
-    - "Mi hijo se llama …"
-    - "la bicicleta"
-    - "veinticuatro"
-  correct: 0
+  task: "Para ihop orden"
+  left:
+    - "det är bra / okej"
+    - "Vad blir det? / Hur mycket blir det?"
+    - "totalt"
+    - "ett kilo"
+  right:
+    - "está bien"
+    - "¿Cuánto es?"
+    - "en total"
+    - "un kilo"
 
 - type: mc
   direction: es_sv
@@ -3350,6 +2247,20 @@
     - "Jag har inte husdjur."
   correct: 1
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "druvor"
+    - "äpple"
+    - "jordgubbe"
+    - "apelsin"
+  right:
+    - "las uvas"
+    - "la manzana"
+    - "la fresa"
+    - "la naranja"
+
 - type: mc
   direction: es_sv
   task: "Vad betyder det här?"
@@ -3376,59 +2287,21 @@
     - "1"
   correct: 1
 
-# Kapitel 11 – I mataffären
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "gurka"
-  back: "el pepino"
-  prompt: "el pepino"
-  options:
-    - "god kväll / god natt"
-    - "gurka"
-    - "skateboard"
-    - "Välkommen till den spansktalande världen!"
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "tomat"
-  back: "el tomate"
-  prompt: "el tomate"
-  options:
-    - "hon är / den är (här: finns)"
-    - "tomat"
-    - "inget mer"
-    - "Min favoritfärg är röd."
-  correct: 1
-
-- type: mc
-  direction: es_sv
-  task: "Vad betyder det här?"
-  front: "mjölk"
-  back: "la leche"
-  prompt: "la leche"
-  options:
-    - "vi ses snart"
-    - "Min katt är vit, svart och fin."
-    - "Jag har inte husdjur."
-    - "mjölk"
-  correct: 3
-
-- type: mc
+- type: pairs
   direction: sv_es
-  task: "Välj rätt spanska"
-  front: "ris"
-  back: "el arroz"
-  prompt: "ris"
-  options:
-    - "el arroz"
-    - "en"
-    - "¿Cuánto es?"
-    - "África"
-  correct: 0
+  task: "Para ihop orden"
+  left:
+    - "melon"
+    - "päron"
+    - "banan"
+    - "plommon"
+  right:
+    - "el melón"
+    - "la pera"
+    - "el plátano"
+    - "la ciruela"
+
+# Kapitel 11 – I mataffären
 
 - type: mc
   direction: sv_es
@@ -3442,19 +2315,6 @@
     - "trece"
     - "el pescado"
   correct: 3
-
-- type: mc
-  direction: es_sv
-  task: "Översätt till svenska"
-  front: "Vad behöver vi?"
-  back: "¿Qué necesitamos?"
-  prompt: "¿Qué necesitamos?"
-  options:
-    - "Sydamerika"
-    - "Vad behöver vi?"
-    - "mat / måltid"
-    - "äpple"
-  correct: 1
 
 - type: mc
   direction: sv_es
@@ -3481,3 +2341,30 @@
     - "pobrecito"
     - "Buenos días"
   correct: 0
+
+- type: assemble
+  direction: es_sv
+  task: "Översätt till svenska"
+  prompt: "¿Qué necesitamos?"
+  answer: "Vad behöver vi?"
+  pool:
+    - "Vad"
+    - "behöver"
+    - "vi?"
+    - "tar"
+    - "går."
+    - "vi"
+
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "gurka"
+    - "tomat"
+    - "mjölk"
+    - "ris"
+  right:
+    - "el pepino"
+    - "el tomate"
+    - "la leche"
+    - "el arroz"
