@@ -1,6 +1,20 @@
 
 # Kapitel 1 – Hej
 
+- type: pairs
+  direction: sv_es
+  task: "Para ihop orden"
+  left:
+    - "Äpple"
+    - "Bröd"
+    - "Vatten"
+    - "Mjölk"
+  right:
+    - "La manzana"
+    - "El pan"
+    - "El agua"
+    - "La leche"
+
 - type: assemble
   direction: es_sv
   task: "Traduce esta frase"
