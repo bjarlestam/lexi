@@ -62,7 +62,6 @@
     celebrationLayer: document.getElementById('celebration-layer'),
     milestoneTrack: document.getElementById('milestone-track'),
     milestoneProgress: document.getElementById('milestone-progress'),
-    deckMark: document.getElementById('deck-mark'),
     deckGreeting: document.getElementById('deck-greeting'),
     deckTagline: document.getElementById('deck-tagline'),
     study: document.getElementById('study'),
@@ -183,7 +182,6 @@
   /** Applicerar metadata från frontmatter på sidans rubriker. */
   function applyDeckMeta(meta) {
     if (meta.title) document.title = meta.title;
-    setText(el.deckMark, meta.mark || '');
     setText(el.deckGreeting, meta.greeting || '');
     setText(el.deckTagline, meta.tagline || '');
   }

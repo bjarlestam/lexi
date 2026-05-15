@@ -10,7 +10,7 @@
  *    versionen.
  */
 
-const VERSION = 'lexi-v1';
+const VERSION = 'lexi-v2';
 const APP_SHELL = [
   './',
   './index.html',
