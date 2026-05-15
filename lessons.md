@@ -1410,7 +1410,7 @@ deckId: spanish-v1
   task: "Para ihop orden"
   left:
     - "huvudstad i Spanien"
-    - "flaggans färger (Spanien): gul"
+    - "gul"
     - "baskiska"
     - "galiciska"
   right:
