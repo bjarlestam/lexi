@@ -121,14 +121,22 @@ body {
   min-width: 0;
 }
 
-.top-bar__logo {
+.top-bar__logo-wrap {
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  display: block;
-  border-radius: 14px;
-  object-fit: cover;
+  border-radius: var(--radius-btn);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--neutral-200);
   box-shadow: var(--shadow-sm);
+}
+
+.top-bar__logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .top-bar__titles {
