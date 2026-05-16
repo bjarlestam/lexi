@@ -1269,47 +1269,18 @@ deckId: spanish-v1
 
 # Kapitel 5 – Alfabet och uttal
 
-- type: assemble
-  direction: es_sv
-  task: "Översätt till svenska"
-  prompt: "Ñ"
-  answer: "bokstaven efter N i spanska alfabetet"
-  pool:
-    - "bokstaven"
-    - "efter"
-    - "N"
-    - "i"
-    - "spanska"
-    - "alfabetet"
-    - "inte"
-    - "tycker"
-    - "jag"
-
-- type: assemble
+- type: mc
   direction: es_sv
   task: "Vad betyder det här?"
+  front: "bokstavens namn: V"
+  back: "uve"
   prompt: "uve"
-  answer: "bokstavens namn: V"
-  pool:
-    - "bokstavens"
-    - "namn:"
-    - "V"
-    - "inte"
+  options:
+    - "bokstavens namn: V"
+    - "bokstavens namn: W"
+    - "bokstavens namn: J"
     - "alfabetet"
-    - "efter"
-
-- type: assemble
-  direction: es_sv
-  task: "Översätt till svenska"
-  prompt: "uve doble"
-  answer: "bokstavens namn: W"
-  pool:
-    - "bokstavens"
-    - "namn:"
-    - "W"
-    - "J"
-    - "N"
-    - "efter"
+  correct: 0
 
 - type: mc
   direction: sv_es
@@ -1324,18 +1295,18 @@ deckId: spanish-v1
     - "vivo"
   correct: 0
 
-- type: assemble
+- type: mc
   direction: es_sv
   task: "Vad betyder det här?"
+  front: "bokstavens namn: J"
+  back: "jota"
   prompt: "jota"
-  answer: "bokstavens namn: J"
-  pool:
-    - "bokstavens"
-    - "namn:"
-    - "J"
-    - "spanska"
-    - "om"
-    - "inte"
+  options:
+    - "bokstavens namn: J"
+    - "bokstavens namn: V"
+    - "bokstavens namn: W"
+    - "Spanien"
+  correct: 0
 
 - type: assemble
   direction: es_sv
