@@ -1,6 +1,5 @@
 ---
 title: Spanska
-mark: ES
 greeting: ¡Hola!
 tagline: Spanska
 deckId: spanish-v1

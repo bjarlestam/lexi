@@ -3,7 +3,7 @@
 Liten klient-bara webbapp för spaced repetition av valfritt ämne (glosor, fakta,
 o.s.v.). Övningar definieras i en Markdown-fil (default `lessons.md`, kan bytas
 via `?lessons=…` i URL:en) och serveras kort för kort. Inget ämne är hårdkodat
-i appen – titel, hälsning, märke och deckId styrs av filens frontmatter.
+i appen – titel, hälsning, tagline och deckId styrs av filens frontmatter.
 
 Inga build-steg. Öppna via `python3 -m http.server` och peka webbläsaren på `index.html`.
 
@@ -26,7 +26,6 @@ och SRS-id:
 ```
 ---
 title: Spanska – repetition
-mark: ES
 greeting: ¡Hola!
 tagline: Spansk repetition
 deckId: spanish-v1

@@ -13,8 +13,8 @@
 
   /**
    * Default lessons-file. Kan ersättas via ?lessons=<filnamn> i URL:en
-   * eller genom att helt enkelt byta ut filen. UI-strängar (titel, märke,
-   * hälsning, tagline) styrs av frontmatter i toppen av filen.
+   * eller genom att helt enkelt byta ut filen. UI-strängar (titel, hälsning,
+   * tagline) styrs av frontmatter i toppen av filen.
    */
   var DEFAULT_LESSONS = 'lessons.md';
   /** Prefix för storage-nyckeln. Slutar med deckId från frontmatter. */
@@ -86,7 +86,6 @@
    *
    *   ---
    *   title: Spanska – repetition
-   *   mark: ES
    *   greeting: ¡Hola!
    *   tagline: Spansk repetition
    *   deckId: spanish-v1
