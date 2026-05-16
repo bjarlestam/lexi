@@ -94,7 +94,8 @@ Appen är installerbar som PWA på mobil och desktop:
 
 - `manifest.webmanifest` definierar namn, färger, start-URL och ikoner.
 - `sw.js` är en network-first service worker som cachar app-skalet (HTML, CSS,
-  JS, ikoner, manifest) så appen kan startas offline från hemskärmen.
+  JS, ikoner, manifest, `lessons.md`) så appen kan startas offline från
+  hemskärmen inklusive övningar.
 - `icons/` innehåller PNG-ikoner (192/512 för Android, 180 för iOS apple-touch,
   16/32 för favicon). De är genererade från `lexi.png` med `sips`. Om logon
   byts: regenerera ikonerna och bumpa `VERSION`-konstanten i `sw.js` så att

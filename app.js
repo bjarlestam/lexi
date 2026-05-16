@@ -625,7 +625,7 @@
 
   function tryFetchDefault() {
     var lessonsPath = getLessonsPath();
-    return fetch(lessonsPath, { cache: 'no-store' })
+    return fetch(lessonsPath)
       .then(function (r) {
         if (!r.ok) throw new Error('fetch ' + r.status);
         return r.text();

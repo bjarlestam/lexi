@@ -5,12 +5,12 @@
  *    offline från hemskärmen.
  *  - För navigation och statiska assets används network-first med cache som
  *    fallback, så uppdateringar slår igenom så fort man har nät.
- *  - lessons.md (och andra .md) hämtas alltid network-first med cache-fallback,
- *    så nya övningar dyker upp direkt online men funkar offline med senaste
- *    versionen.
+ *  - lessons.md cachas vid install (offline från första start) och uppdateras
+ *    network-first när nät finns. Andra .md via ?lessons= cachas vid första
+ *    lyckade hämtning.
  */
 
-const VERSION = 'lexi-v3';
+const VERSION = 'lexi-v4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -20,6 +20,7 @@ const APP_SHELL = [
   './exercises/mc.js',
   './exercises/assemble.js',
   './exercises/pairs.js',
+  './lessons.md',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
